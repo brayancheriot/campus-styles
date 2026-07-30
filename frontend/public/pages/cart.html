@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart — Paulah Styles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">Paulah <span style="color:var(--accent);">Styles</span></a>
+      <div class="nav-links">
+        <a href="index.html"   class="nav-link">Home</a>
+        <a href="shop.html"    class="nav-link">Shop</a>
+        <a href="about.html"   class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html" class="nav-icon-btn active"><i class="fa-solid fa-cart-shopping"></i><span class="cart-badge hidden" id="cart-badge">0</span></a>
+        <a href="login.html" class="nav-link" id="nav-login-link">Login</a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="shop.html"  class="mobile-nav-link">Shop</a>
+    <div class="mobile-nav-divider"></div>
+    <a href="login.html" class="mobile-nav-link">Login</a>
+  </div>
+
+  <!-- Page Header -->
+  <div class="shop-page-hero">
+    <div class="container">
+      <h1>Cart</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span>/</span>
+        <span class="current">Cart</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Empty Cart -->
+    <div class="cart-empty-state" id="cart-empty" style="display:none;">
+      <div class="cart-empty-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+      <h3>Your cart is empty</h3>
+      <p>Looks like you haven't added anything yet. Start shopping!</p>
+      <a href="shop.html" class="btn btn-black">Continue Shopping</a>
+    </div>
+
+    <!-- Cart Content -->
+    <div id="cart-main" style="display:none;">
+      <div class="cart-layout">
+
+        <!-- Cart items -->
+        <div>
+          <table class="cart-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cart-body">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+
+          <!-- Actions -->
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:24px;flex-wrap:wrap;gap:12px;">
+            <a href="shop.html" class="btn btn-outline">← Continue Shopping</a>
+            <button id="clear-cart-btn" class="btn" style="background:rgba(229,57,53,0.08);color:var(--red);border:1px solid rgba(229,57,53,0.15);">🗑 Clear Cart</button>
+          </div>
+
+          <!-- Coupon -->
+          <div style="margin-top:24px;">
+            <p style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Coupon Code</p>
+            <div class="cart-coupon">
+              <input type="text" id="coupon-input" class="coupon-input" placeholder="Enter coupon code...">
+              <button id="apply-coupon-btn" class="coupon-btn">Apply</button>
+            </div></div>
+        </div>
+
+        <!-- Summary -->
+<div class="cart-summary">
+  <h3>Cart Total</h3>
+
+  <div class="summary-row">
+    <span class="label">Subtotal</span>
+    <span class="value" id="cart-subtotal">KSh 0</span>
+  </div>
+  <div class="summary-row">
+    <span class="label">Delivery</span>
+    <span style="color:var(--success);font-weight:700;">FREE </span>
+  </div>
+  <div class="divider"></div>
+  <div class="summary-total">
+    <span>Total</span>
+    <span id="cart-total">KSh 0</span>
+  </div>
+
+
+  <!-- Free delivery note -->
+  <div style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius-md);padding:10px 12px;margin-bottom:12px;font-size:12px;color:#15803d;font-weight:600;">
+    FREE delivery to Karatina University campus!
+  </div>
+
+  <a href="checkout.html" class="btn btn-black btn-full btn-lg">
+    Proceed to Checkout →
+  </a>
+</div>
+
+          <div style="display:flex;justify-content:center;gap:16px;margin-top:16px;font-size:11px;color:var(--text-muted);">
+            <span><i class="fa-solid fa-shield-halved"></i> Secure</span>
+            <span><i class="fa-solid fa-bolt"></i>Fast Delivery</span>
+            <span><i class="fa-solid fa-rotate"></i> Easy Returns</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div><div class="footer-brand-logo">Paulah Styles</div><p>Your one-stop shop for trendy clothes and sneakers.</p></div>
+        <div><h5>Shop</h5><div class="footer-links"><a href="shop.html">All Products</a><a href="shop.html?category=shoes">Shoes</a></div></div>
+        <div><h5>Help</h5><div class="footer-links"><a href="#">Returns</a><a href="orders.html">Track Order</a></div></div>
+        <div><h5>Info</h5><div class="footer-links"><a href="about.html">About Us</a><a href="contact.html">Contact</a></div></div>
+        <div><h5>Follow Us</h5><div class="footer-links"><a href="#">Instagram</a><a href="#">TikTok</a></div></div>
+      </div>
+      <div class="footer-bottom"><p>© 2026 Paulah Styles. All Rights Reserved.</p></div>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scroll-top">↑</button>
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+</body>
+</html>

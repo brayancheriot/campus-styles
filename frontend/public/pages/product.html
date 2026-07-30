@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product — Paulah Styles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">Paulah <span style="color:var(--accent);">Styles</span></a>
+      <div class="nav-links">
+        <a href="index.html"   class="nav-link">Home</a>
+        <a href="shop.html"    class="nav-link active">Shop</a>
+        <a href="shop.html?category=shoes"  class="nav-link">Shoes</a>
+        <a href="shop.html?category=tshirt" class="nav-link">Men</a>
+        <a href="shop.html?category=dress"  class="nav-link">Women</a>
+        <a href="about.html"   class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html" class="nav-icon-btn"><i class="fas fa-shopping-cart"></i><span class="cart-badge hidden" id="cart-badge">0</span></a>
+        <a href="login.html" class="nav-link" id="nav-login-link">Login</a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="shop.html"  class="mobile-nav-link">Shop</a>
+    <div class="mobile-nav-divider"></div>
+    <a href="cart.html"  class="mobile-nav-link">Cart 🛒</a>
+    <a href="login.html" class="mobile-nav-link">Login</a>
+  </div>
+
+  <!-- Dynamic Product Content -->
+  <div class="container">
+    <div id="product-detail-content">
+      <div class="loading-state" style="padding:80px 0;">
+        <div class="spinner"></div>
+        <p>Loading product...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Related Products -->
+  <section class="section" style="background:var(--off-white);padding-top:40px;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">You May Also Like</h2>
+        <a href="shop.html" class="view-all">View All →</a>
+      </div>
+      <div class="products-slider" id="related-products-grid" style="grid-template-columns:repeat(4,1fr);">
+        <div style="grid-column:1/-1;"><div class="spinner"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-logo">Paulah Styles</div>
+          <p>Your one-stop shop for trendy clothes, sneakers and accessories.</p>
+          <div class="footer-social">
+           <a href="#" class="footer-social-link" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="TikTok">
+        <i class="fab fa-tiktok"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="X">
+        <i class="fab fa-x-twitter"></i>
+    </a>
+          </div>
+        </div>
+        <div><h5>Shop</h5><div class="footer-links"><a href="shop.html">All Products</a><a href="shop.html?category=shoes">Shoes</a><a href="shop.html?category=tshirt">Men</a><a href="shop.html?category=dress">Women</a></div></div>
+        <div><h5>Help</h5><div class="footer-links"><a href="#">FAQs</a><a href="#">Returns</a><a href="orders.html">Track Order</a></div></div>
+        <div><h5>Info</h5><div class="footer-links"><a href="about.html">About Us</a><a href="contact.html">Contact</a></div></div>
+        <div><h5>Follow Us</h5><div class="footer-links"><a href="#">Instagram</a><a href="#">TikTok</a></div></div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Paulah Styles. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scroll-top">↑</button>
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <a href="https://chat.whatsapp.com/IvrWplr4pBzAs9TXKhdZrD?s=cl&p=a&ilr=0&amv=1" class="whatsapp-float" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+</body>
+</html>

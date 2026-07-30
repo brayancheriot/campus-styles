@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Paulah Styles — Trendy, Stylish, You. Your one-stop shop for casual clothes and sneakers. Serving Karatina University students.">
+  <title>Paulah Styles — Trendy, Stylish, You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+   <div class="top-bar">
+    <div class="top-bar-track">
+      <div class="top-bar-item">Free Delivery Within Karatina</div>
+      <div class="top-bar-item">Comrade prices </div>
+      <div class="top-bar-item"> Trusted by all comrades</div>
+      <!-- Duplicated for seamless infinite CSS animation loops -->
+      <div class="top-bar-item"> Free Delivery Within Karatina</div>
+      <div class="top-bar-item">Comrade prices</div>
+      <div class="top-bar-item">Trusted by all comrades</div>
+    </div>
+  </div>
+
+  <!-- FIXED NAVBAR CONTAINER -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">paulah <span>Styles</span></a>
+      
+      <div class="nav-links">
+        <a href="index.html"   class="nav-link">Home</a>
+        <a href="shop.html"    class="nav-link active">Shop</a>
+        <a href="shop.html?category=shoes"       class="nav-link">Shoes</a>
+        <a href="shop.html?category=tshirt"      class="nav-link">Men</a>
+        <a href="shop.html?category=dress"       class="nav-link">Women</a>
+        <a href="shop.html?category=accessories" class="nav-link">Accessories</a>
+        <a href="about.html"   class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html" class="nav-icon-btn" aria-label="Cart">
+          <i class="fa-solid fa-cart-shopping"></i><span class="cart-badge hidden" id="cart-badge">0</span>
+        </a>
+        <a href="login.html" class="nav-link" id="nav-login-link">Login</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+  <!-- MOBILE NAV -->
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="index.html"   class="mobile-nav-link">Home</a>
+    <a href="shop.html"    class="mobile-nav-link">Shop All</a>
+    <div class="mobile-nav-divider"></div>
+    <a href="about.html"   class="mobile-nav-link">About Us</a>
+    <a href="contact.html" class="mobile-nav-link">Contact</a>
+    <div class="mobile-nav-divider"></div>
+    <a href="login.html" class="nav-link" id="nav-login-link">Login</a>
+    <a href="register.html" class="mobile-nav-link">Register</a>
+    <a href="cart.html"    class="mobile-nav-link">Cart 🛒</a>
+  </div>
+  
+  <!-- FRESH START HERO SECTION -->
+<section class="hero-section">
+  <div class="container hero-wrapper-grid">
+    
+    <!-- 1. LEFT SIDEBAR CATEGORIES -->
+    <aside class="category-sidebar">
+      <div class="sidebar-title">Categories</div>
+      <nav class="sidebar-links">
+            <a href="shop.html?category=shoes" class="sidebar-item" data-slide="1">Shop
+        Sneakers
+    </a>
+
+    <a href="shop.html?category=tshirt" class="sidebar-item" data-slide="2">Shop
+        Men's Casual
+    </a>
+
+    <a href="shop.html?category=dress" class="sidebar-item" data-slide="3">Shop
+        Women's Fashion
+    </a>
+
+    <a href="shop.html?category=accessories" class="sidebar-item" data-slide="4">Shop
+        Accessories
+    </a>
+
+    <a href="shop.html" class="sidebar-item" data-slide="0">
+        Top Sales
+    </a>
+
+      </nav>
+    </aside>
+
+   <!-- CENTER PIECE: MARKETING AD SLIDER -->
+<div class="main-slider-viewport">
+    <div class="main-slider-track" id="hero-slider-track">
+
+        <!-- Slide 1 -->
+        <div class="main-slide">
+            <img src="images/slide1.png" alt="New Semester Sale" class="hero-img-asset">
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="main-slide">
+            <img src="images/shoesflier.png" alt="Sneakers From KSh 999" class="hero-img-asset">
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="main-slide">
+            <img src="images/menflier.png" alt="Men's Collection" class="hero-img-asset">
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="main-slide">
+            <img src="images/womenflier.png" alt="Women's Collection" class="hero-img-asset">
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="main-slide">
+            <img src="images/accessories.png" alt="Campus Essentials" class="hero-img-asset">
+        </div>
+
+    </div>
+
+    <!-- Slider Indicators -->
+    <div class="slider-indicators">
+        <span class="ind-dot active" data-slide="0"></span>
+        <span class="ind-dot" data-slide="1"></span>
+        <span class="ind-dot" data-slide="2"></span>
+        <span class="ind-dot" data-slide="3"></span>
+        <span class="ind-dot" data-slide="4"></span>
+    </div>
+</div>
+
+    <!-- 3. RIGHT SIDEBAR: INDEPENDENT PRODUCT PROMOS -->
+    <div class="promo-aside-box">
+      <div class="promo-box-title">Hot Deals</div>
+      
+      <div class="promo-products-vertical" id="vertical-promo-track">
+        <!-- Product Card 1 -->
+         <a href="shop.html?category=accessories">
+        <div class="mini-product-card">
+          <span class="badge-tag">Sale</span>
+          <div class="img-wrap"><img src="images/bag.png" alt="Bag Set"></div>
+          <div class="price-bar"><span class="old">KSh 1,499</span><span class="current">KSh 999</span></div>
+        </div>
+        </a>
+        
+        <!-- Product Card 2 -->
+         <a href="shop.html?category=women">
+        <div class="mini-product-card">
+          <span class="badge-tag">Hot</span>
+          <div class="img-wrap"><img src="images/topsales.jpeg" alt="Skincare"></div>
+          <div class="price-bar"><span class="old">KSh 2,999</span><span class="current">KSh 999</span></div>
+        </div>
+      </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+  
+
+   <!-- SHOP BY CATEGORY (ADAPTIVE TRACK) -->
+<section class="section category-section">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">Shop by Category</h2>
+      <a href="shop.html" class="view-all">View All →</a>
+    </div>
+    
+    <!-- Added .mobile-swipe-wrapper to handle phone touch-swiping layouts safely -->
+    <div class="categories-grid mobile-swipe-wrapper">
+      
+      <!-- Category Item 1: Sneakers -->
+      <a href="shop.html?category=shoes" class="category-card">
+        <div class="category-card-img">
+          <div class="category-placeholder">
+            <img src="images/sneaker.png" alt="Buy Trendy Campus Sneakers at Paulah Styles">
+          </div>
+        </div>
+        <div class="category-card-info">
+          <div class="name">Sneakers</div>
+          <div class="sub">Shop Now</div>
+        </div>
+      </a>
+
+      <!-- Category Item 2: Men -->
+      <a href="shop.html?category=tshirt" class="category-card">
+        <div class="category-card-img">
+          <div class="category-placeholder">
+            <img src="images/mens.png" alt="Men Streetwear Jeans and Casual T-shirts">
+          </div>
+        </div>
+        <div class="category-card-info">
+          <div class="name">Men's Fashion</div>
+          <div class="sub">Shop Now</div>
+        </div>
+      </a>
+
+      <!-- Category Item 3: Women -->
+      <a href="shop.html?category=dress" class="category-card">
+        <div class="category-card-img">
+          <div class="category-placeholder">
+            <img src="images/women.png" alt="Ladies Thrift and Trending Apparel Outfits">
+          </div>
+        </div>
+        <div class="category-card-info">
+          <div class="name">Women's Fashion</div>
+          <div class="sub">Shop Now</div>
+        </div>
+      </a>
+
+      <!-- Category Item 4: Accessories -->
+      <a href="shop.html?category=accessories" class="category-card">
+        <div class="category-card-img">
+          <div class="category-placeholder">
+            <img src="images/accessory.png" alt="Campus Accessories Backpacks and Laptop Bags">
+          </div>
+        </div>
+        <div class="category-card-info">
+          <div class="name">Accessories</div>
+          <div class="sub">Shop Now</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+  <!-- NEW ARRIVALS -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">New Arrivals</h2>
+        <a href="shop.html" class="view-all">View All →</a>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="filter-tabs">
+        <button class="filter-tab-btn active" data-filter="">All</button>
+        <button class="filter-tab-btn" data-filter="tshirt">Men</button>
+        <button class="filter-tab-btn" data-filter="dress">Women</button>
+        <button class="filter-tab-btn" data-filter="shoes">Shoes</button>
+        <button class="filter-tab-btn" data-filter="accessories">Accessories</button>
+      </div>
+
+      <!-- Products -->
+      <div class="products-slider-wrapper">
+
+    <button class="slider-btn prev" id="slider-prev" aria-label="Previous">
+        ❮
+    </button>
+
+    <div class="products-slider" id="arrivals-grid">
+        <div class="loading-state">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <button class="slider-btn next" id="slider-next" aria-label="Next">
+        ❯
+    </button>
+
+</div>
+    </div>
+    
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="container">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <div class="trust-icon">
+    <i class="fa-solid fa-bolt"></i>
+</div>
+          <div class="trust-text">
+            <div class="title">Fast Delivery</div>
+            <div class="desc">Quick delivery right on campus</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">
+    <i class="fa-solid fa-shield-halved"></i>
+</div>
+          <div class="trust-text">
+            <div class="title">Secure Payment</div>
+            <div class="desc">Safe and secure payment through M-PESA</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">
+    <i class="fa-solid fa-circle-check"></i>
+</div>
+          <div class="trust-text">
+            <div class="title">Quality Guarantee</div>
+            <div class="desc">We only sell quality products you can trust</div>
+          </div>
+        </div>
+        <div class="trust-item">
+          <div class="trust-icon">
+    <i class="fa-solid fa-rotate"></i>
+</div>
+          <div class="trust-text">
+            <div class="title">Easy Returns</div>
+            <div class="desc">Not satisfied? Return within 7 days</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-logo">Paulah Styles</div>
+          <p>Your one-stop shop for trendy clothes, sneakers and accessories. Serving students at Karatina University and beyond.</p>
+          
+        </div>
+        <div><div class="footer-social">
+
+    <a href="#" class="footer-social-link" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="TikTok">
+        <i class="fab fa-tiktok"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="X">
+        <i class="fab fa-x-twitter"></i>
+    </a>
+
+</div>
+          <h5>Shop</h5>
+          <div class="footer-links">
+            <a href="shop.html">All Products</a>
+            <a href="shop.html?category=tshirt">Men</a>
+            <a href="shop.html?category=dress">Women</a>
+            <a href="shop.html?category=shoes">Shoes</a>
+            <a href="shop.html?category=accessories">Accessories</a>
+          </div>
+        </div>
+        <div>
+          <h5>Help</h5>
+          <div class="footer-links">
+            <a href="#">FAQs</a>
+            <a href="#">Delivery & Pickup</a>
+            <a href="#">Returns</a>
+            <a href="#">Size Guide</a>
+            <a href="orders.html">Track Order</a>
+          </div>
+        </div>
+        <div>
+          <h5>Info</h5>
+          <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms & Conditions</a>
+          </div>
+        </div>
+        <div>
+          <h5>Follow Us</h5>
+          <div class="footer-links">
+            <a href="#">Instagram</a>
+            <a href="#">TikTok</a>
+            <a href="#">Facebook</a>
+          </div>
+          <div style="margin-top:16px;">
+            <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:8px;">Newsletter</p>
+            <form class="newsletter-form" style="display:flex;gap:0;border-radius:4px;overflow:hidden;" onsubmit="return false;">
+              <input type="email" class="newsletter-input" placeholder="Your email" style="flex:1;padding:10px 12px;border:none;background:rgba(255,255,255,0.08);color:white;font-size:12px;">
+              <button type="submit" class="newsletter-btn" style="padding:10px 14px;background:white;color:black;font-size:12px;font-weight:700;border:none;cursor:pointer;">→</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Paulah Styles. All Rights Reserved. | Karatina University, Kenya</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scroll-top" aria-label="Back to top">↑</button>
+
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+ <script>
+document.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById("hero-slider-track");
+    const slides = document.querySelectorAll(".main-slide");
+    const dots = document.querySelectorAll(".slider-indicators .ind-dot");
+
+    let activeIndex = 0;
+
+    function changeSlide(index) {
+        activeIndex = index;
+
+        track.style.transform =
+            `translateX(-${slides[index].offsetLeft}px)`;
+
+        dots.forEach(dot => dot.classList.remove("active"));
+        dots[index].classList.add("active");
+    }
+
+    let autoSlide = setInterval(() => {
+        changeSlide((activeIndex + 1) % slides.length);
+    }, 4000);
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+            clearInterval(autoSlide);
+            changeSlide(index);
+
+            autoSlide = setInterval(() => {
+                changeSlide((activeIndex + 1) % slides.length);
+            }, 4000);
+        });
+    });
+
+    window.addEventListener("resize", () => {
+        changeSlide(activeIndex);
+    });
+});
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const input = document.getElementById("shop-search");
+    const button = document.getElementById("search-btn");
+
+    const products = document.querySelectorAll(".product-card");
+
+    function searchProducts(){
+
+        const keyword = input.value.trim().toLowerCase();
+
+        products.forEach(product=>{
+
+            const name =
+                product.dataset.name.toLowerCase();
+
+            const category =
+                product.dataset.category.toLowerCase();
+
+            if(
+                name.includes(keyword) ||
+                category.includes(keyword)
+            ){
+                product.style.display="block";
+            }else{
+                product.style.display="none";
+            }
+
+        });
+
+    }
+
+    button.addEventListener("click",searchProducts);
+
+    input.addEventListener("keyup",(e)=>{
+
+        searchProducts();
+
+    });
+
+});
+
+
+
+const sliderTrack = document.getElementById("hero-slider-track");
+const categoryItems = document.querySelectorAll(".sidebar-item");
+const dots = document.querySelectorAll(".ind-dot");
+
+let currentSlide = 0;
+let autoSlider;
+
+/* Change slide */
+function showSlide(index) {
+
+    currentSlide = index;
+
+    sliderTrack.style.transform = `translateX(-${index * 100}%)`;
+
+    dots.forEach(dot => dot.classList.remove("active"));
+
+    if (dots[index]) {
+        dots[index].classList.add("active");
+    }
+}
+
+/* Auto slider */
+function startSlider() {
+
+    autoSlider = setInterval(() => {
+
+        currentSlide++;
+
+        if (currentSlide > 4) currentSlide = 0;
+
+        showSlide(currentSlide);
+
+    }, 5000);
+
+}
+
+startSlider();
+
+/* Hover categories */
+categoryItems.forEach(item => {
+
+    item.addEventListener("mouseenter", () => {
+
+        clearInterval(autoSlider);
+
+        showSlide(Number(item.dataset.slide));
+
+    });
+
+});
+
+/* Resume autoplay */
+document.querySelector(".category-sidebar").addEventListener("mouseleave", () => {
+
+    clearInterval(autoSlider);
+
+    startSlider();
+
+});
+</script>
+<a href="" class="whatsapp-float" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shop — Paulah Styles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet">
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+
+  <!-- ANNOUNCEMENT BAR -->
+
+  <!-- NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="container">
+      <a href="index.html" class="nav-logo">Paulah <span style="color:var(--accent);">Styles</span></a>
+      <div class="nav-links">
+        <a href="index.html"   class="nav-link">Home</a>
+        <a href="shop.html"    class="nav-link active">Shop</a>
+        <a href="shop.html?category=shoes"       class="nav-link">Shoes</a>
+        <a href="shop.html?category=tshirt"      class="nav-link">Men</a>
+        <a href="shop.html?category=dress"       class="nav-link">Women</a>
+        <a href="shop.html?category=accessories" class="nav-link">Accessories</a>
+        <a href="about.html"   class="nav-link">About Us</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </div>
+      <div class="nav-icons">
+        <a href="cart.html" class="nav-icon-btn"><i class="fas fa-shopping-cart"></i><span class="cart-badge hidden" id="cart-badge">0</span></a>
+        <a href="login.html" class="nav-link" id="nav-login-link">Login</a>
+        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+      </div>
+    </div>
+  </nav>
+  <div class="mobile-nav" id="mobile-nav">
+    <a href="index.html" class="mobile-nav-link">Home</a>
+    <a href="shop.html"  class="mobile-nav-link active">Shop All</a>
+    <a href="shop.html?category=shoes" class="mobile-nav-link">Shoes</a>
+    <a href="shop.html?category=tshirt" class="mobile-nav-link">Men</a>
+    <a href="shop.html?category=dress" class="mobile-nav-link">Women</a>
+    <div class="mobile-nav-divider"></div>
+    <a href="cart.html"  class="mobile-nav-link">Cart 🛒</a>
+    <a href="login.html" class="mobile-nav-link">Login</a>
+  </div>
+
+  <!-- PAGE HERO -->
+  <div class="shop-page-hero">
+    <div class="container">
+      <h1>Shop</h1>
+      <div class="breadcrumb">
+        <a href="index.html">Home</a>
+        <span>/</span>
+        <span class="current">Shop</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOP SECTION -->
+  <div class="container">
+    <div class="shop-layout">
+
+      <!-- SIDEBAR -->
+      <aside class="shop-sidebar">
+        <div class="sidebar-section">
+          <div class="sidebar-title">Categories</div>
+          <div class="filter-list">
+            <label class="filter-option">
+              <input type="radio" name="category" class="sidebar-filter-radio" value="" checked>
+              <label>All</label>
+              <span class="filter-count">All</span>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="category" class="sidebar-filter-radio" value="tshirt">
+              <label>Men</label>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="category" class="sidebar-filter-radio" value="dress">
+              <label>Women</label>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="category" class="sidebar-filter-radio" value="shoes">
+              <label>Shoes</label>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="category" class="sidebar-filter-radio" value="hoodie">
+              <label>Hoodies</label>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="category" class="sidebar-filter-radio" value="jeans">
+              <label>Jeans</label>
+            </label>
+            <label class="filter-option">
+              <input type="radio" name="category" class="sidebar-filter-radio" value="accessories">
+              <label>Accessories</label>
+            </label>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Price Range</div>
+          <div class="price-range-inputs">
+            <input type="number" id="price-min" class="price-input" placeholder="Min" min="0">
+            <input type="number" id="price-max" class="price-input" placeholder="Max" max="50000">
+          </div>
+          <button id="apply-price-btn" class="btn btn-outline btn-sm btn-full" style="margin-top:10px;">Apply</button>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Size</div>
+          <div class="size-options" id="shop-size-options">
+            <button type="button" class="size-option active" data-size="">All</button>
+            <button type="button" class="size-option" data-size="XS">XS</button>
+            <button type="button" class="size-option" data-size="S">S</button>
+            <button type="button" class="size-option" data-size="M">M</button>
+            <button type="button" class="size-option" data-size="L">L</button>
+            <button type="button" class="size-option" data-size="XL">XL</button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-title">Color</div>
+          <div class="color-swatches" id="shop-color-options">
+            <button type="button" class="color-swatch active" data-color="" style="background:linear-gradient(135deg,#111827 50%,#ffffff 50%);border:1px solid #ccc;" title="All colors" aria-label="All colors"></button>
+            <button type="button" class="color-swatch" data-color="Black" style="background:#1a1a1a;" title="Black" aria-label="Black"></button>
+            <button type="button" class="color-swatch" data-color="White" style="background:#ffffff;border:1px solid #ccc;" title="White" aria-label="White"></button>
+            <button type="button" class="color-swatch" data-color="Grey" style="background:#9e9e9e;" title="Grey" aria-label="Grey"></button>
+            <button type="button" class="color-swatch" data-color="Blue" style="background:#1565c0;" title="Blue" aria-label="Blue"></button>
+            <button type="button" class="color-swatch" data-color="Red" style="background:#c62828;" title="Red" aria-label="Red"></button>
+            <button type="button" class="color-swatch" data-color="Brown" style="background:#5d4037;" title="Brown" aria-label="Brown"></button>
+          </div>
+        </div>
+
+        <a href="#" id="clear-filters-btn" class="clear-filters">Clear all filters</a>
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <div>
+        <!-- Toolbar -->
+        <div class="shop-toolbar">
+          <div class="shop-results" id="shop-count">
+            Showing <span>0</span> results
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="display:flex;background:var(--off-white);border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;flex:1;max-width:260px;">
+              <input type="text" id="shop-search" placeholder="Search products..." style="flex:1;padding:9px 14px;border:none;background:transparent;font-size:13px;">
+              <button style="padding:9px 12px;color:red;border:none;font-size:20px;cursor:pointer;"><i class="fas fa-search"></i></button>
+            </div>
+            <div class="shop-sort-wrap">
+              <span style="font-size:13px;color:var(--text-muted);">Sort by:</span>
+              <select class="shop-sort" id="shop-sort-select">
+                <option value="">Featured</option>
+                <option value="price-asc">Price: Low → High</option>
+                <option value="price-desc">Price: High → Low</option>
+                <option value="newest">Newest First</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products grid -->
+        <div class="shop-products-grid" id="shop-grid">
+          <div style="grid-column:1/-1;"><div class="spinner"></div></div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="shop-pagination">
+          <button class="page-btn active" type="button">1</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand-logo">Paulah Styles</div>
+          <p>Your one-stop shop for trendy clothes, sneakers and accessories.</p>
+          <div class="footer-social">
+            <a href="#" class="footer-social-link" aria-label="Facebook">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="TikTok">
+        <i class="fab fa-tiktok"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <a href="#" class="footer-social-link" aria-label="X">
+        <i class="fab fa-x-twitter"></i>
+    </a>
+          </div>
+        </div>
+        <div>
+          <h5>Shop</h5>
+          <div class="footer-links">
+            <a href="shop.html">All Products</a>
+            <a href="shop.html?category=tshirt">Men</a>
+            <a href="shop.html?category=dress">Women</a>
+            <a href="shop.html?category=shoes">Shoes</a>
+            <a href="shop.html?category=accessories">Accessories</a>
+          </div>
+        </div>
+        <div>
+          <h5>Help</h5>
+          <div class="footer-links">
+            <a href="#">FAQs</a>
+            <a href="#">Delivery & Pickup</a>
+            <a href="#">Returns</a>
+            <a href="#">Size Guide</a>
+            <a href="orders.html">Track Order</a>
+          </div>
+        </div>
+        <div>
+          <h5>Info</h5>
+          <div class="footer-links">
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="#">Privacy Policy</a>
+          </div>
+        </div>
+        <div>
+          <h5>Follow Us</h5>
+          <div class="footer-links">
+            <a href="#">Instagram</a>
+            <a href="#">TikTok</a>
+            <a href="#">Facebook</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Paulah Styles. All Rights Reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scroll-top">↑</button>
+  <script src="../js/api.js"></script>
+  <script src="../js/main.js"></script>
+  <a href="https://chat.whatsapp.com/IvrWplr4pBzAs9TXKhdZrD?s=cl&p=a&ilr=0&amv=1" class="whatsapp-float" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+</body>
+</html>

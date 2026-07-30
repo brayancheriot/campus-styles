@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Checkout — Paulah Styles. Free campus delivery at Karatina University.">
+  <meta name="theme-color" content="#7C3AED">
+  <title>Checkout — Paulah Styles</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
+  <link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+  <style>
+    :root{--grad:linear-gradient(135deg,#7C3AED,#FF4D8D);--primary:#7C3AED;--secondary:#FF4D8D;--success:#16A34A;--error:#E53935;--surface:#FFFFFF;--bg:#F5F5F5;--border:#E8E8E8;--text:#111111;--text-light:#555555;--text-muted:#999999;--radius-sm:4px;--radius-md:8px;--radius-lg:12px;--radius-full:999px;--shadow-sm:0 1px 4px rgba(0,0,0,.08);--shadow-md:0 4px 16px rgba(0,0,0,.12);--nav-h:52px;--bottom-h:58px;--trans:all 0.2s ease;}
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Inter',sans-serif;color:var(--text);background:var(--bg);line-height:1.5;overflow-x:hidden;padding-bottom:calc(var(--bottom-h) + 80px);}
+    a{text-decoration:none;color:inherit;}
+    button{cursor:pointer;font-family:'Inter',sans-serif;border:none;background:none;}
+    input,select,textarea{font-family:'Inter',sans-serif;outline:none;}
+    /* ANNOUNCE */
+    .co-announce{background:var(--grad);color:#fff;text-align:center;padding:9px 16px;font-size:12px;font-weight:700;letter-spacing:.3px;}
+    /* HEADER */
+    .co-header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 16px;height:var(--nav-h);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-sm);}
+    .co-logo{font-family:'Playfair Display',serif;font-size:18px;font-weight:900;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .co-back{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:700;color:var(--primary);padding:7px 11px;border-radius:var(--radius-md);background:rgba(124,58,237,.07);}
+    .co-item-count{font-size:12px;font-weight:700;color:var(--text-muted);}
+    /* PROGRESS */
+    .co-progress{background:var(--surface);padding:12px 16px;border-bottom:1px solid var(--border);}
+    .co-steps{display:flex;align-items:center;justify-content:center;}
+    .co-step{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+    .co-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--text-muted);transition:var(--trans);}
+    .co-step.done   .co-dot{background:var(--success);border-color:var(--success);color:#fff;}
+    .co-step.active .co-dot{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 3px 10px rgba(124,58,237,.35);}
+    .co-slabel{font-size:9px;font-weight:700;color:var(--text-muted);white-space:nowrap;text-transform:uppercase;letter-spacing:.4px;}
+    .co-step.active .co-slabel{color:var(--primary);}
+    .co-step.done   .co-slabel{color:var(--success);}
+    .co-sline{flex:1;height:2px;background:var(--border);margin:0 3px;margin-bottom:16px;max-width:60px;transition:var(--trans);}
+    .co-sline.done{background:var(--success);}
+    /* CONTAINER */
+    .co-wrap{max-width:520px;margin:0 auto;padding:14px 12px;}
+    @media(min-width:900px){.co-wrap{max-width:900px;display:grid;grid-template-columns:1fr 350px;gap:22px;align-items:start;padding:22px 20px;} .co-right{position:sticky;top:calc(var(--nav-h) + 14px);}}
+    /* CARD */
+    .co-card{background:var(--surface);border-radius:var(--radius-lg);border:1.5px solid var(--border);margin-bottom:10px;overflow:hidden;transition:var(--trans);}
+    .co-card.active{border-color:rgba(124,58,237,.3);box-shadow:0 3px 16px rgba(124,58,237,.1);}
+    .co-card.locked{opacity:.5;pointer-events:none;}
+    .co-card-head{padding:13px 14px;display:flex;align-items:center;justify-content:space-between;}
+    .co-head-left{display:flex;align-items:center;gap:9px;}
+    .co-num{width:24px;height:24px;border-radius:50%;background:var(--grad);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:var(--trans);}
+    .co-num.done{background:var(--success);}
+    .co-ctitle{font-size:14px;font-weight:800;color:var(--text);}
+    .co-csub{font-size:11px;color:var(--text-muted);margin-top:1px;}
+    .co-edit{font-size:12px;font-weight:700;color:var(--primary);text-decoration:underline;cursor:pointer;display:none;}
+    .co-edit.show{display:block;}
+    .co-body{padding:0 14px 16px;border-top:1px solid var(--border);display:none;}
+    .co-body.open{display:block;padding-top:13px;}
+    /* FREE PILL */
+    .free-pill{display:inline-flex;align-items:center;gap:4px;background:rgba(22,163,74,.1);border:1px solid rgba(22,163,74,.2);color:#15803d;padding:5px 11px;border-radius:var(--radius-full);font-size:12px;font-weight:700;margin-bottom:12px;}
+    /* FORM */
+    .co-group{margin-bottom:12px;}
+    .co-label{display:block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--text);margin-bottom:5px;}
+    .co-label .req{color:var(--secondary);}
+    .co-input{width:100%;padding:13px 13px;border:1.5px solid var(--border);border-radius:var(--radius-md);font-size:16px;font-family:'Inter',sans-serif;color:var(--text);background:var(--surface);transition:var(--trans);-webkit-appearance:none;}
+    .co-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,58,237,.1);}
+    .co-input::placeholder{color:var(--text-muted);font-size:14px;}
+    .co-sel{width:100%;padding:13px 34px 13px 13px;border:1.5px solid var(--border);border-radius:var(--radius-md);font-size:16px;font-family:'Inter',sans-serif;color:var(--text);background:var(--surface);-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%237C3AED' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;transition:var(--trans);}
+    .co-sel:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(124,58,237,.1);}
+    .co-grid2{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+    @media(max-width:360px){.co-grid2{grid-template-columns:1fr;}}
+    /* PAYMENT METHODS */
+    .pay-methods{display:flex;flex-direction:column;gap:9px;margin-bottom:14px;}
+    .pay-method{display:flex;align-items:center;gap:12px;padding:13px 14px;border:2px solid var(--border);border-radius:var(--radius-md);cursor:pointer;transition:var(--trans);background:var(--surface);position:relative;}
+    .pay-method:hover{border-color:var(--primary);}
+    .pay-method.selected{border-color:var(--primary);background:rgba(124,58,237,.04);box-shadow:0 0 0 1px var(--primary);}
+    .pay-method input[type="radio"]{accent-color:var(--primary);width:16px;height:16px;flex-shrink:0;}
+    .pay-method-icon{font-size:1.4rem;flex-shrink:0;}
+    .pm-name{font-size:14px;font-weight:800;color:var(--text);}
+    .pm-sub{font-size:12px;color:var(--text-muted);margin-top:2px;}
+    .pm-badge{position:absolute;top:-8px;right:12px;background:var(--grad);color:#fff;font-size:9px;font-weight:800;padding:2px 8px;border-radius:var(--radius-full);text-transform:uppercase;letter-spacing:.5px;}
+    /* COD INFO */
+    .cod-info{background:rgba(22,163,74,.06);border:1.5px solid rgba(22,163,74,.18);border-radius:var(--radius-md);padding:13px;margin-bottom:13px;}
+    .cod-info-title{font-weight:800;color:#15803d;margin-bottom:8px;font-size:13px;}
+    .cod-info ul{list-style:none;display:flex;flex-direction:column;gap:5px;}
+    .cod-info li{display:flex;align-items:flex-start;gap:7px;color:var(--text-light);font-size:12px;line-height:1.5;}
+    .cod-info li::before{content:'✓';color:var(--success);font-weight:800;flex-shrink:0;margin-top:1px;}
+    /* MPESA BOX */
+    .mpesa-box{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-md);padding:13px;margin-bottom:13px;display:none;}
+    .mpesa-box.open{display:block;}
+    .mpesa-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin-bottom:10px;}
+    .mpesa-status{margin-top:10px;padding:11px;border-radius:var(--radius-md);font-size:13px;text-align:center;display:none;}
+    .mpesa-status.waiting{background:rgba(56,189,248,.08);border:1px solid rgba(56,189,248,.2);color:#0369a1;display:block;}
+    .mpesa-status.ok{background:rgba(22,163,74,.08);border:1px solid rgba(22,163,74,.2);color:#15803d;display:block;}
+    .mpesa-status.fail{background:rgba(229,57,53,.06);border:1px solid rgba(229,57,53,.15);color:var(--error);display:block;}
+    /* AMOUNT BOX */
+    .amount-box{background:linear-gradient(135deg,rgba(124,58,237,.07),rgba(255,77,141,.05));border:1.5px solid rgba(124,58,237,.15);border-radius:var(--radius-md);padding:15px;text-align:center;margin-bottom:13px;}
+    .amount-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:4px;}
+    .amount-value{font-size:30px;font-weight:900;line-height:1;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .amount-sub{font-size:12px;color:var(--text-muted);margin-top:4px;}
+    /* PLACE ORDER BTN */
+    .place-btn{width:100%;padding:16px;background:var(--grad);color:#fff;border:none;border-radius:var(--radius-lg);font-size:16px;font-weight:800;letter-spacing:.4px;cursor:pointer;transition:var(--trans);box-shadow:0 4px 18px rgba(124,58,237,.35);display:flex;align-items:center;justify-content:center;gap:8px;font-family:'Inter',sans-serif;margin-bottom:10px;}
+    .place-btn:active{transform:scale(.98);}
+    .place-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none;}
+    .place-btn.loading{opacity:.8;pointer-events:none;}
+    .place-btn.loading::after{content:'';width:15px;height:15px;border:2.5px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:co-spin .6s linear infinite;margin-left:6px;}
+    @keyframes co-spin{to{transform:rotate(360deg);}}
+    /* CONTINUE BTN */
+    .cont-btn{width:100%;padding:13px;background:var(--grad);color:#fff;border:none;border-radius:var(--radius-md);font-size:14px;font-weight:800;cursor:pointer;transition:var(--trans);font-family:'Inter',sans-serif;display:flex;align-items:center;justify-content:center;gap:7px;}
+    .cont-btn:active{transform:scale(.98);}
+    /* SECURITY */
+    .security-row{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;margin-top:10px;padding-top:10px;}
+    .sec-item{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-muted);font-weight:600;}
+    /* SUMMARY CARD */
+    .sum-card{background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:10px;box-shadow:var(--shadow-sm);}
+    .sum-head{padding:12px 14px;background:var(--grad);display:flex;align-items:center;justify-content:space-between;}
+    .sum-head h3{color:#fff;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;}
+    .sum-toggle{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:var(--radius-full);cursor:pointer;}
+    .sum-body{padding:13px 14px;}
+    .sum-body.collapsed{display:none;}
+    /* ITEM */
+    .co-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);}
+    .co-item:last-of-type{border-bottom:none;}
+    .co-item-img{width:44px;height:52px;border-radius:var(--radius-sm);overflow:hidden;background:var(--bg);flex-shrink:0;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;}
+    .co-item-img img{width:100%;height:100%;object-fit:cover;}
+    .co-item-info{flex:1;min-width:0;}
+    .ci-name{font-size:12px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .ci-var{font-size:10px;color:var(--text-muted);margin-top:1px;}
+    .ci-qty{font-size:10px;font-weight:700;background:var(--bg);border:1px solid var(--border);padding:2px 6px;border-radius:var(--radius-sm);color:var(--text-light);margin-top:3px;display:inline-block;}
+    .ci-price{font-size:13px;font-weight:800;color:var(--primary);flex-shrink:0;}
+    /* TOTALS */
+    .tot-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;}
+    .tot-row .l{color:var(--text-muted);}
+    .tot-row .v{font-weight:700;}
+    .tot-row .v.free{color:var(--success);font-weight:800;}
+    .tot-grand{display:flex;justify-content:space-between;align-items:center;padding:10px 0 0;border-top:2px solid var(--border);margin-top:5px;font-size:16px;font-weight:900;}
+    .tot-grand .v{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    /* BREAKDOWN */
+    .breakdown{background:linear-gradient(135deg,rgba(124,58,237,.05),rgba(255,77,141,.03));border:1.5px solid rgba(124,58,237,.12);border-radius:var(--radius-md);padding:10px 12px;margin-top:11px;}
+    .breakdown .bt{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--primary);margin-bottom:6px;}
+    .bk-row{display:flex;justify-content:space-between;font-size:12px;padding:3px 0;color:var(--text-light);}
+    .bk-row .bv{font-weight:800;color:var(--primary);}
+    /* CAMPUS NOTE */
+    .campus-note{margin-top:10px;padding:9px 11px;background:rgba(22,163,74,.06);border:1px solid rgba(22,163,74,.18);border-radius:var(--radius-md);font-size:12px;color:#15803d;font-weight:600;line-height:1.5;}
+    /* SUCCESS */
+    .co-success{display:none;text-align:center;padding:36px 16px;}
+    .co-success.show{display:block;}
+    .success-icon{width:76px;height:76px;background:rgba(22,163,74,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px;animation:pop .6s ease;}
+    @keyframes pop{0%{transform:scale(.5);opacity:0;}70%{transform:scale(1.1);}100%{transform:scale(1);opacity:1;}}
+    .co-success h2{font-size:20px;font-weight:900;margin-bottom:7px;}
+    .co-success p{font-size:13px;color:var(--text-light);margin-bottom:5px;line-height:1.6;}
+    .tracking-badge{display:inline-block;background:var(--grad);color:#fff;padding:8px 20px;border-radius:var(--radius-full);font-size:14px;font-weight:800;margin:11px 0;letter-spacing:.5px;}
+    .suc-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:13px;border-radius:var(--radius-md);font-size:14px;font-weight:800;font-family:'Inter',sans-serif;cursor:pointer;transition:var(--trans);text-decoration:none;margin-top:9px;border:none;}
+    .suc-btn.primary{background:var(--grad);color:#fff;}
+    .suc-btn.ghost{background:var(--bg);color:var(--primary);border:1.5px solid var(--border);}
+  </style>
+</head>
+<body>
+
+<!-- ANNOUNCE -->
+<div class="co-announce">FREE delivery for all Karatina University students!</div>
+
+<!-- HEADER -->
+<header class="co-header">
+  <a href="cart.html" class="co-back">← Cart</a>
+  <div class="co-logo">Paulah Styles</div>
+  <div class="co-item-count" id="co-item-count"></div>
+</header>
+
+<!-- PROGRESS STEPS -->
+<div class="co-progress">
+  <div class="co-steps">
+    <div class="co-step done" id="s1">
+      <div class="co-dot">✓</div>
+      <div class="co-slabel">Cart</div>
+    </div>
+    <div class="co-sline done"></div>
+    <div class="co-step active" id="s2">
+      <div class="co-dot">2</div>
+      <div class="co-slabel">Details</div>
+    </div>
+    <div class="co-sline" id="sline2"></div>
+    <div class="co-step" id="s3">
+      <div class="co-dot">3</div>
+      <div class="co-slabel">Payment</div>
+    </div>
+    <div class="co-sline" id="sline3"></div>
+    <div class="co-step" id="s4">
+      <div class="co-dot">4</div>
+      <div class="co-slabel">Done</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN WRAP -->
+<div class="co-wrap">
+
+  <!-- LEFT / FORM -->
+  <div id="co-left">
+
+    <!-- SUCCESS SCREEN -->
+    <div class="co-success" id="co-success">
+      <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+      <h2>Order Placed! </h2>
+      <p>Thank you! Your order has been received.<br>We'll deliver to your location soon.</p>
+      <div class="tracking-badge" id="co-track">Tracking: —</div>
+      <p style="font-size:12px;color:var(--text-muted);margin-top:6px;">
+        We'll WhatsApp you to confirm delivery time.
+      </p>
+      <a href="orders.html" class="suc-btn primary"><i class="fas fa-box"></i>View My Orders</a>
+      <a href="shop.html"   class="suc-btn ghost">🛍️ Continue Shopping</a>
+    </div>
+
+    <!-- FORM CARDS -->
+    <div id="co-cards">
+
+      <!-- CARD 1 — DELIVERY DETAILS -->
+      <div class="co-card active" id="card-1">
+        <div class="co-card-head">
+          <div class="co-head-left">
+            <div class="co-num" id="n1">1</div>
+            <div>
+              <div class="co-ctitle"> Delivery Details</div><i class="fas fa-map-marker-alt"></i>
+              <div class="co-csub" id="sub1">Where should we bring your order?</div>
+            </div>
+          </div>
+          <span class="co-edit" id="ed1" onclick="openCard(1)">Edit</span>
+        </div>
+        <div class="co-body open" id="b1">
+
+          <div class="free-pill">FREE delivery on campus</div>
+
+          <div class="co-grid2">
+            <div class="co-group">
+              <label class="co-label">Full Name <span class="req">*</span></label>
+              <input type="text" id="co-name" class="co-input"
+                placeholder="Jane Mwangi"
+                autocomplete="name" inputmode="text">
+            </div>
+            <div class="co-group">
+              <label class="co-label">Phone <span class="req">*</span></label>
+              <input type="tel" id="co-phone" class="co-input"
+                placeholder="07XX XXX XXX"
+                autocomplete="tel" inputmode="numeric">
+            </div>
+          </div>
+
+          <div class="co-group">
+            <label class="co-label">Pickup Location <span class="req">*</span></label>
+            <select id="co-loc" class="co-sel">
+              <option value="">Select your location</option>
+              <optgroup label=" Karatina University">
+                <option>KarU Main Gate</option>
+                <option>Spring Valley Hostels</option>
+                <option>Runda Hostels</option>
+                <option>KarU Library</option>
+                <option>KarU Cafeteria</option>
+                <option>KarU Administration Block</option>
+              </optgroup>
+              <optgroup label="<i class="fas fa-map-marker-alt"></i> Areas Around Karatina">
+                <option>Sunrise</option>
+                <option>G-Town</option>
+                <option>Kagochi</option>
+                <option>1 KM</option>
+                <option>Karatina Town</option>
+              </optgroup>
+              <option value="Other">Other — specify in notes</option>
+            </select>
+          </div>
+
+          <div class="co-group">
+            <label class="co-label">Notes
+              <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--text-muted);">(optional)</span>
+            </label>
+            <input type="text" id="co-notes" class="co-input"
+              placeholder="e.g. Room 204, call when you arrive...">
+          </div>
+
+          <button class="cont-btn" onclick="goStep2()">
+            Continue → Payment Method
+          </button>
+
+        </div>
+      </div>
+
+      <!-- CARD 2 — PAYMENT -->
+      <div class="co-card locked" id="card-2">
+        <div class="co-card-head">
+          <div class="co-head-left">
+            <div class="co-num" id="n2">2</div>
+            <div>
+              <div class="co-ctitle"><i class="fas fa-credit-card"></i> Payment Method</div>
+              <div class="co-csub" id="sub2">How will you pay?</div>
+            </div>
+          </div>
+          <span class="co-edit" id="ed2" onclick="openCard(2)">Edit</span>
+        </div>
+        <div class="co-body" id="b2">
+
+          <!-- Methods -->
+          <div class="pay-methods">
+
+            <!-- COD — DEFAULT -->
+            <div class="pay-method selected" id="pm-cod" onclick="setMethod('cod')">
+              <div class="pm-badge">Recommended</div>
+              <input type="radio" name="pm" value="cod" checked>
+              <div class="pay-method-icon"><i class="fas fa-money-bill-wave"></i></div>
+              <div>
+                <div class="pm-name">Cash on Delivery</div>
+                <div class="pm-sub">Pay cash when we deliver to you</div>
+              </div>
+            </div>
+
+            <!-- MPESA
+            <div class="pay-method" id="pm-mpesa" onclick="setMethod('mpesa')">
+              <input type="radio" name="pm" value="mpesa">
+              <div class="pay-method-icon"><i class="fas fa-mobile-alt"></i></div>
+              <div>
+                <div class="pm-name">M-Pesa</div>
+                <div class="pm-sub">Pay 20% deposit via M-Pesa</div>
+              </div>
+            </div>
+
+          </div> -->
+
+          <!-- COD INFO (default visible) -->
+          <div class="cod-info" id="cod-info">
+            <div class="cod-info-title">💵 How Cash on Delivery Works</div>
+            <ul>
+              <li>Place your order now — no payment needed yet</li>
+              <li>We prepare and bring your items to your location</li>
+              <li>You pay the full amount in cash when we deliver</li>
+              <li>Please have the exact amount ready</li>
+            </ul>
+          </div>
+
+          <!-- MPESA BOX (hidden by default) -->
+          <div class="mpesa-box" id="mpesa-box">
+            <div class="mpesa-title">📲 M-Pesa STK Push</div>
+            <div class="co-group" style="margin-bottom:9px;">
+              <label class="co-label">M-Pesa Number <span class="req">*</span></label>
+              <input type="tel" id="mpesa-phone" class="co-input"
+                placeholder="07XX XXX XXX"
+                inputmode="numeric"
+                style="font-weight:700;letter-spacing:1px;">
+            </div>
+            <button class="cont-btn" id="stk-btn" onclick="sendSTK()">
+              📲 Send M-Pesa Prompt
+            </button>
+            <div class="mpesa-status" id="mpesa-st"></div>
+          </div>
+
+          <!-- AMOUNT BOX -->
+          <div class="amount-box">
+            <div class="amount-label">Amount to Pay</div>
+            <div class="amount-value" id="amt-val">KSh 0</div>
+            <div class="amount-sub" id="amt-sub">Full payment on delivery</div>
+          </div>
+
+          <!-- PLACE ORDER -->
+          <button class="place-btn" id="place-btn" onclick="placeOrder()">
+            🛒 Place Order
+          </button>
+
+          <p id="mpesa-warn"
+            style="display:none;text-align:center;font-size:12px;color:var(--error);font-weight:600;margin-bottom:8px;">
+            ⚠️ Please complete M-Pesa payment first
+          </p>
+
+          <div class="security-row">
+            <div class="sec-item">🔒 Secure</div>
+            <div class="sec-item">🏫 Campus Delivery</div>
+            <div class="sec-item">🔄 Easy Returns</div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /co-cards -->
+  </div><!-- /co-left -->
+
+  <!-- RIGHT — SUMMARY -->
+  <div class="co-right" id="co-right">
+    <div class="sum-card">
+      <div class="sum-head">
+        <h3>🧾 Order Summary</h3>
+        <button class="sum-toggle" onclick="toggleSum()" id="sum-tog">Hide</button>
+      </div>
+      <div class="sum-body" id="sum-body">
+
+        <div id="items-list">
+          <div style="display:flex;justify-content:center;padding:18px;">
+            <div style="width:22px;height:22px;border:3px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:co-spin .7s linear infinite;"></div>
+          </div>
+        </div>
+
+        <div style="border-top:1px solid var(--border);padding-top:9px;margin-top:3px;">
+          <div class="tot-row"><span class="l">Subtotal</span><span class="v" id="sum-sub">KSh 0</span></div>
+          <div class="tot-row"><span class="l">Delivery</span><span class="v free">FREE 🎉</span></div>
+          <div class="tot-grand"><span>Total</span><span class="v" id="sum-tot">KSh 0</span></div>
+        </div>
+
+        <div class="breakdown">
+          <div class="bt">💳 Payment Plan</div>
+          <div class="bk-row">
+            <span id="bk-label">Cash on Delivery</span>
+            <span class="bv" id="bk-now">KSh 0</span>
+          </div>
+          <div class="bk-row" id="bk-bal-row">
+            <span>Pay on delivery</span>
+            <span class="bv" id="bk-bal">KSh 0</span>
+          </div>
+        </div>
+
+        <div class="campus-note">
+          🏫 We deliver right to your hostel or agreed meeting point at Karatina University — <strong>FREE</strong>!
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /co-wrap -->
+
+<script src="../js/api.js"></script>
+<script src="../js/main.js"></script>
+<script>
+/* ============================================================
+   CHECKOUT — COD Model · Mobile First
+   ============================================================ */
+let selMethod = 'cod';
+let mpesaDone = false;
+let mpesaId   = null;
+let pollTimer = null;
+let total     = 0;
+let sumOpen   = true;
+
+/* --- Step 2 --- */
+function goStep2() {
+  const name  = document.getElementById('co-name')?.value.trim();
+  const phone = document.getElementById('co-phone')?.value.trim();
+  const loc   = document.getElementById('co-loc')?.value;
+  if (!name)  { showToast('Please enter your full name','warning');   document.getElementById('co-name').focus();  return; }
+  if (!phone) { showToast('Please enter your phone number','warning');document.getElementById('co-phone').focus(); return; }
+  if (phone.replace(/\D/g,'').length < 9) { showToast('Please enter a valid phone number','warning'); document.getElementById('co-phone').focus(); return; }
+  if (!loc)   { showToast('Please select your pickup location','warning'); document.getElementById('co-loc').focus(); return; }
+
+  /* Close card 1, mark done */
+  document.getElementById('b1').classList.remove('open');
+  document.getElementById('card-1').classList.remove('active');
+  document.getElementById('n1').textContent = '✓';
+  document.getElementById('n1').classList.add('done');
+  document.getElementById('sub1').textContent = name + ' · ' + phone;
+  document.getElementById('ed1').classList.add('show');
+
+  /* Progress */
+  const s2 = document.getElementById('s2');
+  s2.classList.remove('active'); s2.classList.add('done');
+  s2.querySelector('.co-dot').textContent = '✓';
+  document.getElementById('s3').classList.add('active');
+  document.getElementById('sline2').classList.add('done');
+
+  /* Open card 2 */
+  openCard(2);
+
+  /* Auto-fill mpesa phone */
+  const mp = document.getElementById('mpesa-phone');
+  if (mp && !mp.value) mp.value = phone;
+}
+
+function openCard(num) {
+  const card = document.getElementById('card-'+num);
+  const body = document.getElementById('b'+num);
+  if (!card||!body) return;
+  card.classList.remove('locked'); card.classList.add('active');
+  body.classList.add('open');
+  setTimeout(() => card.scrollIntoView({behavior:'smooth',block:'nearest'}), 100);
+}
+
+/* --- Payment method --- */
+function setMethod(m) {
+  selMethod = m;
+  document.getElementById('pm-cod').classList.toggle('selected',   m==='cod');
+  document.getElementById('pm-mpesa')?.classList.toggle('selected', m==='mpesa');
+  document.getElementById('cod-info').style.display  = m==='cod'   ? 'block' : 'none';
+  document.getElementById('mpesa-box').classList.toggle('open', m==='mpesa');
+  document.getElementById('sub2').textContent = m==='cod' ? 'Cash on Delivery' : 'M-Pesa';
+
+  const fmtN = n => 'KSh ' + Math.round(n).toLocaleString('en-KE');
+  if (m === 'cod') {
+    document.getElementById('amt-val').textContent  = fmtN(total);
+    document.getElementById('amt-sub').textContent  = 'Full payment on delivery';
+    document.getElementById('bk-label').textContent = 'Cash on Delivery';
+    document.getElementById('bk-now').textContent   = fmtN(0);
+    document.getElementById('bk-bal').textContent   = fmtN(total);
+    document.getElementById('mpesa-warn').style.display = 'none';
+    enableBtn();
+  } else {
+    const dep = Math.ceil(total * 0.2);
+    document.getElementById('amt-val').textContent  = fmtN(dep);
+    document.getElementById('amt-sub').textContent  = '20% deposit via M-Pesa';
+    document.getElementById('bk-label').textContent = 'M-Pesa Deposit (20%)';
+    document.getElementById('bk-now').textContent   = fmtN(dep);
+    document.getElementById('bk-bal').textContent   = fmtN(total - dep);
+    if (!mpesaDone) {
+      disableBtn();
+      document.getElementById('mpesa-warn').style.display = 'block';
+    }
+  }
+}
+
+function enableBtn()  { const b=document.getElementById('place-btn'); if(b) b.disabled=false; }
+function disableBtn() { const b=document.getElementById('place-btn'); if(b) b.disabled=true;  }
+
+/* --- STK Push --- */
+async function sendSTK() {
+  const phone  = document.getElementById('mpesa-phone')?.value.trim();
+  const btn    = document.getElementById('stk-btn');
+  const status = document.getElementById('mpesa-st');
+  if (!phone) { showToast('Enter M-Pesa phone number','warning'); document.getElementById('mpesa-phone').focus(); return; }
+  if (!Auth.isLoggedIn()) { showToast('Please log in first','warning'); setTimeout(()=>window.location.href='login.html?redirect=checkout.html',1500); return; }
+  const amount = Math.ceil(total * 0.2);
+  if (amount <= 0) { showToast('Cart is empty','warning'); return; }
+  const orig = btn.textContent; btn.textContent='Sending...'; btn.disabled=true; btn.style.opacity='.7';
+  status.className='mpesa-status waiting'; status.innerHTML='📱 Sending prompt to <strong>'+phone+'</strong>...';
+  try {
+    const d = await apiRequest('/mpesa/stkpush','POST',{phone,amount,description:'Paulah Styles Deposit'},true);
+    if (d.success) {
+      mpesaId = d.checkoutRequestId; btn.textContent='⏳ Waiting for PIN...';
+      status.innerHTML='<div style="font-size:1.2rem;margin-bottom:4px;">📲</div><strong>Check your phone!</strong><br>Enter PIN to pay <strong>KSh '+Math.round(amount).toLocaleString()+'</strong><br><span style="font-size:11px;opacity:.7;">Waiting... expires in 2 minutes</span>';
+      showToast('Prompt sent! Enter your PIN 📱','success',5000);
+      doPoll(d.checkoutRequestId, btn, orig);
+    } else { throw new Error(d.message||'STK Push failed'); }
+  } catch(err) {
+    status.className='mpesa-status fail'; status.textContent='❌ '+(err.message||'Failed. Try again.');
+    btn.textContent=orig; btn.disabled=false; btn.style.opacity='1';
+    showToast(err.message||'M-Pesa failed. Try again.','error',5000);
+  }
+}
+
+function doPoll(id, btn, orig) {
+  let t=0;
+  pollTimer = setInterval(async()=>{
+    t++;
+    try {
+      const d = await apiRequest('/mpesa/query','POST',{checkoutRequestId:id},true);
+      if (d.paid) {
+        clearInterval(pollTimer); mpesaDone=true;
+        const st=document.getElementById('mpesa-st');
+        st.className='mpesa-status ok'; st.innerHTML='✅ <strong>Payment confirmed!</strong> Now place your order.';
+        if(btn) btn.style.display='none';
+        document.getElementById('mpesa-warn').style.display='none';
+        enableBtn(); showToast('Payment confirmed! 🎉 Place your order now.','success',8000);
+        document.getElementById('place-btn')?.scrollIntoView({behavior:'smooth',block:'nearest'});
+      } else if (d.message?.toLowerCase().includes('cancel')||d.message?.toLowerCase().includes('insufficient')) {
+        clearInterval(pollTimer);
+        document.getElementById('mpesa-st').className='mpesa-status fail';
+        document.getElementById('mpesa-st').textContent='❌ '+(d.message||'Cancelled.');
+        if(btn){btn.textContent=orig;btn.disabled=false;btn.style.opacity='1';}
+        showToast('Payment cancelled. Try again.','warning');
+      } else if (t>=24) {
+        clearInterval(pollTimer);
+        document.getElementById('mpesa-st').className='mpesa-status fail';
+        document.getElementById('mpesa-st').textContent='⏰ Timed out. Try again.';
+        if(btn){btn.textContent='📲 Try Again';btn.disabled=false;btn.style.opacity='1';}
+        showToast('Payment timed out. Try again.','warning');
+      }
+    } catch {}
+  }, 5000);
+}
+
+/* --- Place Order --- */
+async function placeOrder() {
+  if (selMethod==='mpesa' && !mpesaDone) {
+    showToast('Please complete M-Pesa payment first','warning');
+    document.getElementById('mpesa-phone')?.focus(); return;
+  }
+  if (!Auth.isLoggedIn()) {
+    showToast('Please log in to place your order','warning');
+    setTimeout(()=>window.location.href='login.html?redirect=checkout.html',1500); return;
+  }
+  const name  = document.getElementById('co-name')?.value.trim()||'';
+  const phone = document.getElementById('co-phone')?.value.trim()||'';
+  const loc   = document.getElementById('co-loc')?.value||'';
+  const notes = document.getElementById('co-notes')?.value.trim()||'';
+  if (!name||!phone||!loc) { showToast('Please fill in your delivery details first','warning'); openCard(1); return; }
+  const btn=document.getElementById('place-btn'), orig=btn.textContent;
+  btn.classList.add('loading'); btn.disabled=true; btn.textContent='Placing order...';
+  try {
+    const r = await OrderAPI.place({
+      shippingAddress:{fullName:name,phone,street:loc,city:'Karatina',county:'Kirinyaga',country:'Kenya'},
+      paymentMethod: selMethod==='mpesa'?'M-Pesa':'Cash on Delivery',
+      paymentReference: mpesaId||'',
+      deliveryNotes: notes,
+      paymentType:   selMethod==='mpesa'?'deposit':'cod',
+    });
+    LocalCart.clear();
+    await updateCartBadge();
+    if (typeof updateBottomBadge==='function') await updateBottomBadge();
+    showSuccess(r.order);
+  } catch(err) {
+    showToast(err.message||'Order failed. Try again.','error');
+    btn.classList.remove('loading'); btn.disabled=false; btn.textContent=orig;
+  }
+}
+
+function showSuccess(order) {
+  ['s3','s4'].forEach(id=>{ const el=document.getElementById(id); if(el){el.classList.remove('active');el.classList.add('done');el.querySelector('.co-dot').textContent='✓';} });
+  ['sline2','sline3'].forEach(id=>document.getElementById(id)?.classList.add('done'));
+  document.getElementById('co-cards').style.display='none';
+  document.getElementById('co-success').classList.add('show');
+  const tn=document.getElementById('co-track');
+  if(tn) tn.textContent='Tracking: #'+(order.tracking_number||order.id);
+  window.scrollTo({top:0,behavior:'smooth'});
+  showToast('🎉 Order placed! Tracking: #'+(order.tracking_number||order.id),'success',8000);
+  setTimeout(()=>window.location.href='orders.html', 8000);
+}
+
+function toggleSum() {
+  sumOpen=!sumOpen;
+  document.getElementById('sum-body').classList.toggle('collapsed',!sumOpen);
+  document.getElementById('sum-tog').textContent=sumOpen?'Hide':'Show';
+}
+
+/* --- INIT --- */
+async function initCheckoutPage() {
+  let items=[], sub=0;
+  if (Auth.isLoggedIn()) {
+    try { const d=await CartAPI.get(); items=d?.cart?.items||[]; sub=d?.cart?.totalPrice||0; }
+    catch { items=LocalCart.get(); sub=LocalCart.getTotal(); }
+  } else { items=LocalCart.get(); sub=LocalCart.getTotal(); }
+  if (!items.length) { window.location.href='cart.html'; return; }
+  total = sub;
+  const ic=document.getElementById('co-item-count');
+  if(ic) ic.textContent=items.length+' item'+(items.length!==1?'s':'');
+  const fmt = n=>'KSh '+Math.round(n).toLocaleString('en-KE');
+  const listEl=document.getElementById('items-list');
+  if(listEl) listEl.innerHTML=items.map(item=>{
+    const img=getImageUrl(item.image), p=parseFloat(item.price_at_add||item.price||0);
+    return '<div class="co-item"><div class="co-item-img">'+(img?'<img src="'+img+'" alt="'+item.name+'" onerror="this.style.display=\'none\'">':'<span style="font-size:1.2rem;">'+getCategoryEmoji(item.category||'')+'</span>')+'</div><div class="co-item-info"><div class="ci-name">'+item.name+'</div><div class="ci-var">'+(item.size?'Size: '+item.size:'')+(item.color?' · '+item.color:'')+'</div><div class="ci-qty">Qty: '+item.quantity+'</div></div><div class="ci-price">'+fmt(p*item.quantity)+'</div></div>';
+  }).join('');
+  document.getElementById('sum-sub').textContent=fmt(sub);
+  document.getElementById('sum-tot').textContent=fmt(sub);
+  document.getElementById('bk-bal').textContent=fmt(sub);
+  document.getElementById('amt-val').textContent=fmt(sub);
+  const user=Auth.getUser();
+  if(user?.name)  { const e=document.getElementById('co-name');  if(e) e.value=user.name; }
+  if(user?.phone) { const e=document.getElementById('co-phone'); if(e) e.value=user.phone; }
+}
+</script>
+</body>
+</html>
