@@ -25,6 +25,11 @@ if (isProduction) {
     'DB_USER',
     'DB_PASSWORD',
     'DB_NAME',
+    'SMTP_HOST',
+    'SMTP_PORT',
+    'SMTP_USER',
+    'SMTP_PASSWORD',
+    'EMAIL_FROM',
   ];
 
   if (process.env.MPESA_ENABLED === 'true') {
@@ -47,6 +52,13 @@ if (isProduction) {
 
   if (process.env.JWT_SECRET.length < 32) {
     console.error('JWT_SECRET must be at least 32 characters in production.');
+    process.exit(1);
+  }
+
+  try {
+    if (new URL(process.env.FRONTEND_URL).protocol !== 'https:') throw new Error();
+  } catch {
+    console.error('FRONTEND_URL must be a valid HTTPS URL in production.');
     process.exit(1);
   }
 }

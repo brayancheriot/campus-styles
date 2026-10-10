@@ -5,8 +5,9 @@
 
 const bcrypt        = require('bcryptjs');
 const crypto        = require('crypto');
-const { query, queryOne } = require('../config/db');
+const { query, queryOne, transaction } = require('../config/db');
 const generateToken = require('../utils/generateToken');
+const { sendPasswordResetEmail } = require('../utils/email');
 
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -325,11 +326,19 @@ const forgotPassword = async (req, res, next) => {
       [user.id, tokenHash]
     );
 
-    const frontendBase = (process.env.FRONTEND_URL || req.get('origin') || '').replace(/\/$/, '');
-    response.resetUrl = frontendBase
-      ? `${frontendBase}/pages/reset-password.html?token=${token}`
-      : `reset-password.html?token=${token}`;
-    response.expiresIn = '1 hour';
+    const frontendBase = process.env.FRONTEND_URL || 'http://localhost:5500';
+    const resetUrl = new URL('/pages/reset-password.html', frontendBase);
+    resetUrl.searchParams.set('token', token);
+
+    void sendPasswordResetEmail({ to: user.email, resetUrl: resetUrl.toString() }).catch(async (emailError) => {
+      await query(
+        `UPDATE password_reset_tokens
+         SET used_at = NOW()
+         WHERE token_hash = ? AND used_at IS NULL`,
+        [tokenHash]
+      ).catch(() => {});
+      console.error('Password reset email delivery failed:', emailError.code || 'SMTP_ERROR');
+    });
 
     res.status(200).json(response);
   } catch (error) {
@@ -379,8 +388,31 @@ const resetPassword = async (req, res, next) => {
     const salt = await bcrypt.genSalt(12);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    await query('UPDATE users SET password = ? WHERE id = ?', [hashedPassword, reset.user_id]);
-    await query('UPDATE password_reset_tokens SET used_at = NOW() WHERE id = ?', [reset.id]);
+    await transaction(async (connection) => {
+      const [claim] = await connection.execute(
+        `UPDATE password_reset_tokens
+         SET used_at = NOW()
+         WHERE id = ? AND used_at IS NULL AND expires_at > NOW()`,
+        [reset.id]
+      );
+
+      if (claim.affectedRows !== 1) {
+        const error = new Error('Reset link is invalid or expired.');
+        error.statusCode = 400;
+        throw error;
+      }
+
+      const [userUpdate] = await connection.execute(
+        'UPDATE users SET password = ? WHERE id = ? AND is_active = 1',
+        [hashedPassword, reset.user_id]
+      );
+
+      if (userUpdate.affectedRows !== 1) {
+        const error = new Error('Reset link is invalid or expired.');
+        error.statusCode = 400;
+        throw error;
+      }
+    });
 
     res.status(200).json({
       success: true,

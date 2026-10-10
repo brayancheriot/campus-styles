@@ -1032,9 +1032,7 @@ function initForgotPasswordPage() {
 
       if (result) {
         result.style.display = 'block';
-        result.textContent = data.resetUrl
-          ? `Reset link: ${data.resetUrl}`
-          : 'If that email exists, reset instructions are ready.';
+        result.textContent = data.message || 'If an account exists for that email, reset instructions will be sent.';
       }
     } catch (err) {
       showToast(err.message || 'Could not start password reset', 'error');

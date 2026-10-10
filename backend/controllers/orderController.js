@@ -152,9 +152,23 @@ const placeOrder = async (req, res, next) => {
     });
 
     const order = await getOrderDetails(orderId);
-    notifyOrderCreated(order).catch((error) => {
-      console.error('WhatsApp order notification failed:', error.response?.data || error.message);
-    });
+    notifyOrderCreated(order)
+      .then((response) => {
+        console.info('WhatsApp order notification accepted:', {
+          trackingNumber: order.tracking_number,
+          messageId: response.data?.messages?.[0]?.id || null,
+        });
+      })
+      .catch((error) => {
+        const apiError = error.response?.data?.error;
+        console.error('WhatsApp order notification failed:', {
+          trackingNumber: order.tracking_number,
+          httpStatus: error.response?.status || null,
+          code: apiError?.code || null,
+          subcode: apiError?.error_subcode || null,
+          message: apiError?.message || error.message,
+        });
+      });
 
     res.status(201).json({
       success: true,
