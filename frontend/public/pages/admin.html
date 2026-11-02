@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Paulah Styles</title>
+  <title>Admin — Campus Styles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   <style>
     
     /* ============================================
-       PAULAH STYLES — ADMIN DASHBOARD
+      CAMPUS STYLES — ADMIN DASHBOARD
        Complete standalone file
        ============================================ */
     :root {
@@ -543,7 +543,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
        ============================ -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <span class="sidebar-logo">Paulah Styles</span>
+      <span class="sidebar-logo">Campus Styles</span>
       <span class="sidebar-logo-sub">Admin Panel</span>
     </div>
 
@@ -766,7 +766,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   /* ============================================================
      CONFIG
      ============================================================ */
-  const API_BASE = 'http://localhost:5000/api';
+  const ADMIN_API_BASE = 'http://localhost:5000/api';
 
   /* ============================================================
      AUTH
@@ -787,7 +787,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     if (token) headers['Authorization'] = `Bearer ${token}`;
     const opts = { method, headers };
     if (body) opts.body = JSON.stringify(body);
-    const res  = await fetch(`${API_BASE}${endpoint}`, opts);
+    const res  = await fetch(`${ADMIN_API_BASE}${endpoint}`, opts);
     const data = await res.json();
     if (!res.ok) throw new Error(data.message || 'Request failed');
     return data;
@@ -795,7 +795,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
   async function apiForm(endpoint, method, formData) {
     const token = Auth.getToken();
-    const res   = await fetch(`${API_BASE}${endpoint}`, {
+    const res   = await fetch(`${ADMIN_API_BASE}${endpoint}`, {
       method, headers: { 'Authorization': `Bearer ${token}` }, body: formData,
     });
     const data = await res.json();
@@ -809,7 +809,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   function formatKES(n) { return `KSh ${Number(n||0).toLocaleString('en-KE', {minimumFractionDigits:0})}`; }
   function formatDate(s) { return new Date(s).toLocaleDateString('en-KE', {year:'numeric',month:'short',day:'numeric'}); }
   function formatDateTime(s) { return new Date(s).toLocaleString('en-KE', {year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); }
-  function getImgUrl(f) { if(!f||f==='default-product.png') return null; if(f.startsWith('http')) return f; return `${API_BASE.replace('/api','')}/uploads/${f}`; }
+  function getImgUrl(f) { if(!f||f==='default-product.png') return null; if(f.startsWith('http')) return f; return `${ADMIN_API_BASE.replace('/api','')}/uploads/${f}`; }
   function categoryEmoji(c) { const m={shoes:'👟',tshirt:'👕',hoodie:'🧥',jeans:'👖',dress:'👗',accessories:'👜'}; return m[c]||'📦'; }
 
   /* ============================================================
@@ -1871,7 +1871,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
           <div class="panel-body">
             <div class="form-group" style="margin-bottom:14px;">
               <label class="form-label">Store Name</label>
-              <input type="text" class="form-input" value="Paulah Styles" readonly>
+              <input type="text" class="form-input" value="Campus Styles" readonly>
             </div>
             <div class="form-group" style="margin-bottom:14px;">
               <label class="form-label">M-PESA Till Number</label>
@@ -1945,7 +1945,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
           <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;font-size:13px;">
             <div style="background:var(--bg);padding:14px;border-radius:var(--radius-md);">
               <div style="color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">API Base URL</div>
-              <div style="font-weight:700;font-family:monospace;font-size:12px;">${API_BASE}</div>
+              <div style="font-weight:700;font-family:monospace;font-size:12px;">${ADMIN_API_BASE}</div>
             </div>
             <div style="background:var(--bg);padding:14px;border-radius:var(--radius-md);">
               <div style="color:var(--text-muted);font-size:11px;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Admin Email</div>
@@ -1991,6 +1991,5 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
   document.addEventListener('DOMContentLoaded', init);
 </script>
-<script src="../js/api.js"></script>
 </body>
 </html>

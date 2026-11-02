@@ -3,7 +3,7 @@
    ============================================ */
 
 const { query, queryOne, transaction } = require('../config/db');
-const { notifyOrderCreated } = require('../utils/whatsappNotifier');
+const { notifyOrderCreated } = require('../utils/smsNotifier');
 
 const DEPOSIT_RATE = 0.20;
 const SHIPPING_COST = 0;
@@ -152,23 +152,20 @@ const placeOrder = async (req, res, next) => {
     });
 
     const order = await getOrderDetails(orderId);
-    notifyOrderCreated(order)
-      .then((response) => {
-        console.info('WhatsApp order notification accepted:', {
-          trackingNumber: order.tracking_number,
-          messageId: response.data?.messages?.[0]?.id || null,
-        });
-      })
-      .catch((error) => {
-        const apiError = error.response?.data?.error;
-        console.error('WhatsApp order notification failed:', {
-          trackingNumber: order.tracking_number,
-          httpStatus: error.response?.status || null,
-          code: apiError?.code || null,
-          subcode: apiError?.error_subcode || null,
-          message: apiError?.message || error.message,
-        });
-      });
+   notifyOrderCreated(order)
+  .then((response) => {
+    console.info('SMS order notification accepted:', {
+      trackingNumber: order.tracking_number,
+      messageId: response?.messageid || null,
+      mobile: response?.mobile || null,
+    });
+  })
+  .catch((error) => {
+    console.error('SMS order notification failed:', {
+      trackingNumber: order.tracking_number,
+      message: error.response?.data || error.message,
+    });
+  });
 
     res.status(201).json({
       success: true,

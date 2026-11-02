@@ -169,6 +169,10 @@ const AuthAPI = {
   update:         (d) => apiRequest('/auth/profile',         'PUT',  d,    true),
 };
 
+const ContactAPI = {
+  send: (data) => apiRequest('/contact', 'POST', data),
+};
+
 /* ============================================
    LOCAL CART — for guests
    ============================================ */

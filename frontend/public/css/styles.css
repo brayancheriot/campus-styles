@@ -1,5 +1,5 @@
 /* ============================================
-   PAULAH STYLES — UPGRADED CSS
+  CAMPUS STYLES — UPGRADED CSS
    Youthful · Bold · Modern
    Target: Karatina University Students
    ============================================ */
@@ -495,13 +495,25 @@ button:hover { transform:translateY(-1px); }
    HERO SECTION
    ============================================ */
    
+
 /* --- HERO MASTER CORE CONTAINER --- */
 .hero-wrapper-grid {
   display: grid;
-  grid-template-columns: 240px 1fr 240px; /* Three clean, explicit vertical tracks */
+  grid-template-columns: 240px minmax(0, 1fr);
   gap: 15px;
   padding-top: 15px;
   padding-bottom: 15px;
+}
+
+/* Consistent hero section height */
+.category-sidebar,
+.main-slider-viewport {
+  height: 380px;
+  background-color: #ffffff;
+  border-radius: 6px;
+  border: 1px solid #e5e5e5;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* Base heights setting for perfect alignment alignment */
@@ -748,14 +760,22 @@ button:hover { transform:translateY(-1px); }
 .price-bar .current {
   font-weight: 700;
 }
+/* ================================
+   TABLET RESPONSIVENESS
+================================ */
 
-/* --- RESPONSIVE LAYOUT BEHAVIOR --- */
 @media (max-width: 1024px) {
 
   .hero-wrapper-grid {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 15px;
+  }
+
+  .category-sidebar {
+    order: 1;
+    width: 100%;
+    height: auto;
   }
 
   .main-slider-viewport {
@@ -764,32 +784,24 @@ button:hover { transform:translateY(-1px); }
     height: 340px;
   }
 
-  .category-sidebar {
-    order: 1;
-    width: 100%;
-    height: auto;
-  }
   .sidebar-links {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-  }
-  .promo-aside-box {
-    order: 3;
-    width: 100%;
-    height: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
   }
 
 }
+
 /* ================================
-   MOBILE
+   MOBILE RESPONSIVENESS
 ================================ */
+
 @media (max-width: 768px) {
 
   .hero-wrapper-grid {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 12px;
   }
 
   /* Categories */
@@ -802,22 +814,18 @@ button:hover { transform:translateY(-1px); }
     background: transparent;
   }
 
-  /* Hide title */
   .sidebar-title {
     display: none;
   }
 
-  /* Horizontal category list */
-   .sidebar-links {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        overflow-x: auto;
-        overflow-y: hidden;
-        align-items: center;
-        
-    }
-
+  .sidebar-links {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    align-items: center;
+  }
 
   .sidebar-links::-webkit-scrollbar {
     display: none;
@@ -837,20 +845,14 @@ button:hover { transform:translateY(-1px); }
     border-color: #E91E63;
   }
 
-  /* Slider */
+  /* Promotional slider */
   .main-slider-viewport {
     order: 2;
+    width: 100%;
     height: 230px;
   }
 
-  /* Hot Deals */
-  .promo-aside-box {
-    order: 3;
-    width: 100%;
-    height: auto;
-  }
 }
-
 /* ============================================
    SHOP BY CATEGORY
    ============================================ *//* ==========================================================================

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="description" content="Checkout — Paulah Styles. Free campus delivery at Karatina University.">
+  <meta name="description" content="Checkout — Campus Styles. Free campus delivery at Karatina University.">
   <meta name="theme-color" content="#7C3AED">
   <title>Checkout — Campus Styles</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -413,7 +413,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         </div>
 
         <div class="campus-note">
-          🏫 We deliver right to your hostel or agreed meeting point at Karatina University — <strong>FREE</strong>!
+           We deliver right to your hostel or agreed meeting point at Karatina University — <strong>FREE</strong>!
         </div>
 
       </div>
@@ -524,7 +524,7 @@ async function sendSTK() {
   const orig = btn.textContent; btn.textContent='Sending...'; btn.disabled=true; btn.style.opacity='.7';
   status.className='mpesa-status waiting'; status.innerHTML='📱 Sending prompt to <strong>'+phone+'</strong>...';
   try {
-    const d = await apiRequest('/mpesa/stkpush','POST',{phone,amount,description:'Paulah Styles Deposit'},true);
+    const d = await apiRequest('/mpesa/stkpush','POST',{phone,amount,description:'Campus Styles Deposit'},true);
     if (d.success) {
       mpesaId = d.checkoutRequestId; btn.textContent='⏳ Waiting for PIN...';
       status.innerHTML='<div style="font-size:1.2rem;margin-bottom:4px;">📲</div><strong>Check your phone!</strong><br>Enter PIN to pay <strong>KSh '+Math.round(amount).toLocaleString()+'</strong><br><span style="font-size:11px;opacity:.7;">Waiting... expires in 2 minutes</span>';

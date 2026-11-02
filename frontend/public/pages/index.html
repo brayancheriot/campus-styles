@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Paulah Styles — Trendy, Stylish, You. Your one-stop shop for casual clothes and sneakers. Serving Karatina University students.">
+  <meta name="description" content="Campus Styles — Trendy, Stylish, You. Your one-stop shop for casual clothes and sneakers. Serving Karatina University students.">
   <title>Campus Styles — Trendy, Stylish, Youthful fashion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -62,7 +62,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     <div class="mobile-nav-divider"></div>
     <a href="login.html" class="nav-link" id="nav-login-link">Login</a>
     <a href="register.html" class="mobile-nav-link">Register</a>
-    <a href="cart.html"    class="mobile-nav-link">Cart 🛒</a>
+    <a href="cart.html"    class="mobile-nav-link">Cart</a>
   </div>
   
   <!-- FRESH START HERO SECTION -->
@@ -137,30 +137,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     </div>
 </div>
 
-    <!-- 3. RIGHT SIDEBAR: INDEPENDENT PRODUCT PROMOS -->
-    <div class="promo-aside-box">
-      <div class="promo-box-title">Hot Deals</div>
-      
-      <div class="promo-products-vertical" id="vertical-promo-track">
-        <!-- Product Card 1 -->
-         <a href="shop.html?category=accessories">
-        <div class="mini-product-card">
-          <span class="badge-tag">Top Sale</span>
-          <div class="img-wrap"><img src="images/WhatsApp Image 2026-04-02 at 3.18.29 PM.jpeg" alt="Bag Set"></div>
-          <div class="price-bar"><span class="old">KSh 1,499</span><span class="current">KSh 999</span></div>
-        </div>
-        </a>
-        
-        <!-- Product Card 2 -->
-         <a href="shop.html?category=women">
-        <div class="mini-product-card">
-          <span class="badge-tag">Hot deal</span>
-          <div class="img-wrap"><img src="images/topsales.jpeg" alt="Skincare"></div>
-          <div class="price-bar"><span class="old">KSh 2,999</span><span class="current">KSh 999</span></div>
-        </div>
-      </a>
-      </div>
-    </div>
+   
 
   </div>
 </section>
@@ -181,7 +158,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
       <a href="shop.html?category=shoes" class="category-card">
         <div class="category-card-img">
           <div class="category-placeholder">
-            <img src="images/sneaker.png" alt="Buy Trendy Campus Sneakers at Paulah Styles">
+            <img src="images/sneaker.png" alt="Buy Trendy Campus Sneakers at Campus Styles">
           </div>
         </div>
         <div class="category-card-info">
@@ -339,7 +316,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         <i class="fab fa-tiktok"></i>
     </a>
 
-    <a href="#" class="footer-social-link" aria-label="WhatsApp">
+    <a href="https://chat.whatsapp.com/IvrWplr4pBzAs9TXKhdZrD?s=sh&p=a&mlu=4&ilr=4&iam=2" class="footer-social-link" aria-label="WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
 
@@ -379,9 +356,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         <div>
           <h5>Follow Us</h5>
           <div class="footer-links">
-            <a href="#">Instagram</a>
-            <a href="#">TikTok</a>
-            <a href="#">Facebook</a>
+            <a href="http://instagram.com/direct/">Instagram</a>
+            <a href="https://www.tiktok.com/@cheriot_brian?is_from_webapp=1&sender_device=pc">TikTok</a>
+            <a href="https://www.facebook.com/brian.brayo.194001">Facebook</a>
           </div>
           <div style="margin-top:16px;">
             <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:8px;">Newsletter</p>
@@ -449,6 +426,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const input = document.getElementById("shop-search");
     const button = document.getElementById("search-btn");
+
+    if (!input || !button) return;
 
     const products = document.querySelectorAll(".product-card");
 
@@ -549,6 +528,6 @@ document.querySelector(".category-sidebar").addEventListener("mouseleave", () =>
 
 });
 </script>
-<a href="" class="whatsapp-float" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+<a href="https://wa.me/254780223624" class="whatsapp-float" aria-label="Chat on WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
 </body>
 </html>

@@ -414,7 +414,7 @@ async function initProductPage() {
   try {
     const data = await ProductAPI.getById(id);
     const p    = data.product;
-    document.title = `${escHtml(p.name)}  Paulah Styles`;
+    document.title = `${escHtml(p.name)}  Campus Styles`;
 
     const img         = getImageUrl(p.image);
     const hasDiscount = p.original_price && parseFloat(p.original_price) > parseFloat(p.price);
@@ -967,9 +967,9 @@ function initLoginPage() {
   /* Password visibility toggle */
   document.querySelectorAll('.password-toggle-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const field    = btn.previousElementSibling;
-      field.type     = field.type === 'password' ? 'text' : 'password';
-      btn.textContent = field.type === 'text' ? 'ðŸ™ˆ' : 'ðŸ‘';
+const field = btn.previousElementSibling;
+field.type = field.type === 'password' ? 'text' : 'password';
+btn.textContent = field.type === 'text' ? '🙈' : '👁';
     });
   });
 }
@@ -1148,14 +1148,25 @@ async function initOrdersPage() {
 function initContactPage() {
   document.getElementById('contact-form')?.addEventListener('submit', async e => {
     e.preventDefault();
-    const btn = e.target.querySelector('[type="submit"]');
+    const form = e.currentTarget;
+    const btn = form.querySelector('[type="submit"]');
     btn.classList.add('loading');
     btn.disabled = true;
-    await new Promise(r => setTimeout(r, 1200));
-    showToast("Message sent! We'll get back to you soon âœ“", 'success');
-    e.target.reset();
-    btn.classList.remove('loading');
-    btn.disabled = false;
+    try {
+      const formData = new FormData(form);
+      await ContactAPI.send({
+        name: formData.get('name'),
+        email: formData.get('email'),
+        message: formData.get('message'),
+      });
+      showToast("Message sent! We'll get back to you soon.", 'success');
+      form.reset();
+    } catch (error) {
+      showToast(error.message || 'We could not send your message. Please try again.', 'error');
+    } finally {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
   });
 }
 
@@ -1727,7 +1738,7 @@ async function initiateSTKPush() {
     const data = await apiRequest('/mpesa/stkpush', 'POST', {
       phone,
       amount:      amount,
-      description: 'Paulah Styles Deposit',
+      description: 'Campus Styles Deposit',
     }, true);
 
     if (data.success) {

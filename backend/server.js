@@ -30,6 +30,7 @@ if (isProduction) {
     'SMTP_USER',
     'SMTP_PASSWORD',
     'EMAIL_FROM',
+    'CONTACT_EMAIL',
   ];
 
   if (process.env.MPESA_ENABLED === 'true') {
@@ -124,6 +125,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api/contact', require('./routes/contactRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/cart', require('./routes/cartRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
