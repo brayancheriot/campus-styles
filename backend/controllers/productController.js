@@ -5,6 +5,7 @@
 const { query, queryOne } = require('../config/db');
 const fs = require('fs');
 const path = require('path');
+const uploadsDir = require('../config/uploads');
 
 const MAX_PAGE_SIZE = 100;
 const VALID_CATEGORIES = new Set(['shoes', 'hoodie', 'tshirt', 'jeans', 'dress', 'accessories', 'other']);
@@ -263,7 +264,7 @@ const updateProduct = async (req, res, next) => {
 
     if (req.file) {
       if (existing.image && existing.image !== 'default-product.png') {
-        const oldPath = path.join(__dirname, '..', 'uploads', existing.image);
+        const oldPath = path.join(uploadsDir, existing.image);
         if (fs.existsSync(oldPath)) fs.unlink(oldPath, () => {});
       }
       updates.push('image = ?');
@@ -324,7 +325,7 @@ const deleteProduct = async (req, res, next) => {
     }
 
     if (product.image && product.image !== 'default-product.png') {
-      const imgPath = path.join(__dirname, '..', 'uploads', product.image);
+      const imgPath = path.join(uploadsDir, product.image);
       if (fs.existsSync(imgPath)) fs.unlink(imgPath, () => {});
     }
 

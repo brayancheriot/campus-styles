@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#7c3aed">
+  <title>You're offline — Campus Styles</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; color: #242033; background: #f8f7fb; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 24px; box-sizing: border-box; }
+    main { max-width: 460px; text-align: center; padding: 36px 28px; background: #fff; border: 1px solid #e8e4ef; border-radius: 18px; box-shadow: 0 16px 48px #27124a12; }
+    h1 { margin: 0 0 12px; font-size: 1.7rem; }
+    p { color: #625e6d; line-height: 1.6; }
+    a, button { display: inline-block; margin: 8px 4px 0; border: 0; border-radius: 9px; padding: 12px 16px; font: inherit; font-weight: 700; text-decoration: none; cursor: pointer; }
+    a { color: #fff; background: #7c3aed; }
+    button { color: #4b3b64; background: #f1edf7; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>You're offline</h1>
+    <p>Previously opened pages and cached product information may still be available. Reconnect to place orders, sign in, make payments, or get the latest stock and prices.</p>
+    <a href="./pages/index.html">Open Campus Styles</a>
+    <button type="button" onclick="window.location.reload()">Try again</button>
+  </main>
+</body>
+</html>

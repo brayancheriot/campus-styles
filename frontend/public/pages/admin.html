@@ -762,11 +762,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <!-- ============================================================
      JAVASCRIPT
      ============================================================ -->
+<script src="../js/config.js"></script>
 <script>
   /* ============================================================
      CONFIG
      ============================================================ */
-  const ADMIN_API_BASE = 'http://localhost:5000/api';
+  const ADMIN_API_BASE = window.CAMPUS_STYLES_API_BASE;
 
   /* ============================================================
      AUTH
@@ -809,7 +810,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
   function formatKES(n) { return `KSh ${Number(n||0).toLocaleString('en-KE', {minimumFractionDigits:0})}`; }
   function formatDate(s) { return new Date(s).toLocaleDateString('en-KE', {year:'numeric',month:'short',day:'numeric'}); }
   function formatDateTime(s) { return new Date(s).toLocaleString('en-KE', {year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); }
-  function getImgUrl(f) { if(!f||f==='default-product.png') return null; if(f.startsWith('http')) return f; return `${ADMIN_API_BASE.replace('/api','')}/uploads/${f}`; }
+  function getImgUrl(f) { if(!f||f==='default-product.png') return null; if(f.startsWith('http')) return f; return `${ADMIN_API_BASE.replace(/\/api$/, '')}/uploads/${f}`; }
   function categoryEmoji(c) { const m={shoes:'👟',tshirt:'👕',hoodie:'🧥',jeans:'👖',dress:'👗',accessories:'👜'}; return m[c]||'📦'; }
 
   /* ============================================================
@@ -1666,12 +1667,24 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
       const data  = await api(`/orders/${id}`);
       const o     = data.order;
       const items = o.items || [];
+      const safeText = (value) => escHtml(String(value ?? ''));
+      const safeAddress = `${safeText(o.street)}, ${safeText(o.city)}`;
+      const safeTracking = safeText(o.tracking_number || o.id);
+      const safeCustomer = safeText(o.full_name);
+      const safePhone = safeText(o.phone);
+      const safeCounty = safeText(o.county || '');
+      const safeNotes = safeText(o.delivery_notes || '');
+      const safeStatus = safeText(o.order_status);
+      const safePaymentStatus = safeText(o.payment_status);
+      const safePaymentMethod = safeText(o.payment_method);
+      const safePaymentReference = safeText(o.payment_reference || '');
+
       document.getElementById('order-modal-body').innerHTML = `
         <!-- Header info -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;">
           <div>
             <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Tracking Number</div>
-            <div style="font-size:18px;font-weight:900;background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">#${o.tracking_number||o.id}</div>
+            <div style="font-size:18px;font-weight:900;background:var(--gradient-main);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">#${safeTracking}</div>
           </div>
           <div style="text-align:right;">
             <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;">Order Date</div>
@@ -1683,44 +1696,49 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
           <!-- Customer -->
           <div style="background:var(--bg);border-radius:var(--radius-md);padding:14px;">
             <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Customer Details</div>
-            <div style="font-weight:700;margin-bottom:4px;">${o.full_name}</div>
-            <div style="font-size:13px;color:var(--text-light);">📞 ${o.phone}</div>
-            <div style="font-size:13px;color:var(--text-light);margin-top:2px;">📍 ${o.street}, ${o.city}</div>
-            ${o.county ? `<div style="font-size:13px;color:var(--text-light);">  ${o.county}</div>` : ''}
-            ${o.delivery_notes ? `<div style="font-size:12px;color:var(--text-muted);margin-top:6px;font-style:italic;">Note: ${o.delivery_notes}</div>` : ''}
+            <div style="font-weight:700;margin-bottom:4px;">${safeCustomer}</div>
+            <div style="font-size:13px;color:var(--text-light);">📞 ${safePhone}</div>
+            <div style="font-size:13px;color:var(--text-light);margin-top:2px;">📍 ${safeAddress}</div>
+            ${o.county ? `<div style="font-size:13px;color:var(--text-light);">  ${safeCounty}</div>` : ''}
+            ${o.delivery_notes ? `<div style="font-size:12px;color:var(--text-muted);margin-top:6px;font-style:italic;">Note: ${safeNotes}</div>` : ''}
           </div>
           <!-- Status -->
           <div style="background:var(--bg);border-radius:var(--radius-md);padding:14px;">
             <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Order Status</div>
-            <div style="margin-bottom:8px;"><span class="badge badge-${o.order_status?.toLowerCase()}">${o.order_status}</span></div>
+            <div style="margin-bottom:8px;"><span class="badge badge-${safeText(o.order_status)?.toLowerCase()}">${safeStatus}</span></div>
             <div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;margin-top:10px;">Payment Status</div>
-            <div style="margin-bottom:8px;"><span class="badge badge-${(o.payment_status||'').toLowerCase().replace(/\s+/g,'-')}">${o.payment_status}</span></div>
-            <div style="font-size:12px;color:var(--text-light);">Method: ${o.payment_method}</div>
-            ${o.payment_reference ? `<div style="font-size:12px;font-weight:700;color:var(--success);margin-top:4px;">Code: ${o.payment_reference}</div>` : ''}
+            <div style="margin-bottom:8px;"><span class="badge badge-${safeText(o.payment_status || '').toLowerCase().replace(/\s+/g,'-')}">${safePaymentStatus}</span></div>
+            <div style="font-size:12px;color:var(--text-light);">Method: ${safePaymentMethod}</div>
+            ${o.payment_reference ? `<div style="font-size:12px;font-weight:700;color:var(--success);margin-top:4px;">Code: ${safePaymentReference}</div>` : ''}
           </div>
         </div>
 
         <!-- Items -->
         <div style="margin-bottom:20px;">
           <div style="font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:12px;">Order Items (${items.length})</div>
-          ${items.map(item => `
-            <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
-              <div style="width:48px;height:56px;border-radius:var(--radius-sm);overflow:hidden;background:var(--bg);flex-shrink:0;border:1px solid var(--border);">
-                ${getImgUrl(item.image)
-                  ? `<img src="${getImgUrl(item.image)}" style="width:100%;height:100%;object-fit:cover;">`
-                  : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;background:linear-gradient(135deg,#f1f0ff,#fdf2f8);">${categoryEmoji('')}</div>`}
-              </div>
-              <div style="flex:1;">
-                <div style="font-size:13px;font-weight:700;">${item.name}</div>
-                <div style="font-size:11px;color:var(--text-muted);">
-                  Qty: ${item.quantity}
-                  ${item.size  ? ` · Size: ${item.size}` : ''}
-                  ${item.color ? ` · ${item.color}` : ''}
+          ${items.map(item => {
+            const itemName = safeText(item.name);
+            const itemSize = safeText(item.size || '');
+            const itemColor = safeText(item.color || '');
+            return `
+              <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);">
+                <div style="width:48px;height:56px;border-radius:var(--radius-sm);overflow:hidden;background:var(--bg);flex-shrink:0;border:1px solid var(--border);">
+                  ${getImgUrl(item.image)
+                    ? `<img src="${getImgUrl(item.image)}" style="width:100%;height:100%;object-fit:cover;">`
+                    : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.4rem;background:linear-gradient(135deg,#f1f0ff,#fdf2f8);">${categoryEmoji('')}</div>`}
                 </div>
+                <div style="flex:1;">
+                  <div style="font-size:13px;font-weight:700;">${itemName}</div>
+                  <div style="font-size:11px;color:var(--text-muted);">
+                    Qty: ${item.quantity}
+                    ${item.size ? ` · Size: ${itemSize}` : ''}
+                    ${item.color ? ` · ${itemColor}` : ''}
+                  </div>
+                </div>
+                <div style="font-size:14px;font-weight:800;color:var(--primary);">${formatKES(item.price * item.quantity)}</div>
               </div>
-              <div style="font-size:14px;font-weight:800;color:var(--primary);">${formatKES(item.price * item.quantity)}</div>
-            </div>
-          `).join('')}
+            `;
+          }).join('')}
         </div>
 
         <!-- Totals -->
@@ -1817,25 +1835,31 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                     <tr><th>Customer</th><th>Phone</th><th>Orders</th><th>Total Spent</th><th>Last Order</th></tr>
                   </thead>
                   <tbody>
-                    ${customers.map((c,i) => `
-                      <tr data-cname="${c.name.toLowerCase()} ${c.email.toLowerCase()}">
-                        <td>
-                          <div class="flex">
-                            <div style="width:34px;height:34px;border-radius:50%;background:var(--gradient-main);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:white;flex-shrink:0;">
-                              ${c.name.charAt(0).toUpperCase()}
+                    ${customers.map((c,i) => {
+                      const name = escHtml(String(c.name || '—'));
+                      const email = escHtml(String(c.email || '—'));
+                      const phone = escHtml(String(c.phone || '—'));
+                      const initials = String(c.name || '—').charAt(0).toUpperCase() || '—';
+                      return `
+                        <tr data-cname="${escHtml(String(c.name || '')).toLowerCase()} ${escHtml(String(c.email || '')).toLowerCase()}">
+                          <td>
+                            <div class="flex">
+                              <div style="width:34px;height:34px;border-radius:50%;background:var(--gradient-main);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:white;flex-shrink:0;">
+                                ${escHtml(initials)}
+                              </div>
+                              <div>
+                                <div style="font-weight:700;font-size:13px;">${name}</div>
+                                <div style="font-size:11px;color:var(--text-muted);">${email}</div>
+                              </div>
                             </div>
-                            <div>
-                              <div style="font-weight:700;font-size:13px;">${c.name}</div>
-                              <div style="font-size:11px;color:var(--text-muted);">${c.email}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td style="font-size:13px;">${c.phone}</td>
-                        <td style="text-align:center;font-weight:800;">${c.orders}</td>
-                        <td style="font-weight:800;color:var(--primary);">${formatKES(c.spent)}</td>
-                        <td style="font-size:12px;color:var(--text-muted);">${formatDate(c.last)}</td>
-                      </tr>
-                    `).join('')}
+                          </td>
+                          <td style="font-size:13px;">${phone}</td>
+                          <td style="text-align:center;font-weight:800;">${c.orders}</td>
+                          <td style="font-weight:800;color:var(--primary);">${formatKES(c.spent)}</td>
+                          <td style="font-size:12px;color:var(--text-muted);">${formatDate(c.last)}</td>
+                        </tr>
+                      `;
+                    }).join('')}
                   </tbody>
                 </table>
               </div>

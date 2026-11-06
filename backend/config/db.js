@@ -28,7 +28,7 @@ const connectDB = async () => {
     console.error('Error Code:', error.code);
     console.error('Error Message:', error.message);
     console.error('');
-    process.exit(1);
+    throw error;
   }
 };
 

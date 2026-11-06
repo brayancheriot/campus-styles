@@ -6,12 +6,12 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const path = require('path');
 const fs = require('fs');
 const rateLimit = require('express-rate-limit');
 require('dotenv').config();
 
-const { connectDB } = require('./config/db');
+const { connectDB, queryOne } = require('./config/db');
+const uploadsDir = require('./config/uploads');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 const app = express();
@@ -20,6 +20,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 if (isProduction) {
   const requiredEnv = [
     'FRONTEND_URL',
+    'TRUST_PROXY',
     'JWT_SECRET',
     'DB_HOST',
     'DB_USER',
@@ -45,7 +46,7 @@ if (isProduction) {
     );
   }
 
-  const missingEnv = requiredEnv.filter((key) => !process.env[key]);
+  const missingEnv = requiredEnv.filter((key) => !process.env[key]?.trim());
   if (missingEnv.length > 0) {
     console.error(`Missing required production environment variables: ${missingEnv.join(', ')}`);
     process.exit(1);
@@ -57,14 +58,39 @@ if (isProduction) {
   }
 
   try {
-    if (new URL(process.env.FRONTEND_URL).protocol !== 'https:') throw new Error();
+    const frontendUrl = new URL(process.env.FRONTEND_URL);
+    if (
+      frontendUrl.protocol !== 'https:' ||
+      frontendUrl.username ||
+      frontendUrl.password ||
+      !['', '/'].includes(frontendUrl.pathname) ||
+      frontendUrl.search ||
+      frontendUrl.hash
+    ) {
+      throw new Error();
+    }
+    process.env.FRONTEND_URL = frontendUrl.origin;
   } catch {
-    console.error('FRONTEND_URL must be a valid HTTPS URL in production.');
+    console.error('FRONTEND_URL must be an HTTPS origin without a path, query, or credentials.');
+    process.exit(1);
+  }
+
+  if (process.env.TRUST_PROXY.trim().toLowerCase() === 'true') {
+    console.error('TRUST_PROXY=true is not allowed. Specify a trusted proxy hop count or IP/subnet.');
     process.exit(1);
   }
 }
 
-connectDB();
+const trustProxyValue = process.env.TRUST_PROXY?.trim();
+if (trustProxyValue) {
+  const normalizedTrustProxy = trustProxyValue.toLowerCase();
+  const trustProxy = normalizedTrustProxy === 'false'
+    ? false
+    : /^\d+$/.test(trustProxyValue)
+    ? Number(trustProxyValue)
+    : trustProxyValue.split(',').map((value) => value.trim()).filter(Boolean);
+  app.set('trust proxy', trustProxy);
+}
 
 app.use(helmet({
   crossOriginResourcePolicy: { policy: 'cross-origin' },
@@ -76,7 +102,6 @@ const allowedOrigins = isProduction
 
 const corsOptions = {
   origin: allowedOrigins,
-  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
 };
@@ -99,7 +124,6 @@ app.use('/api', apiLimiter);
 app.use(express.json({ limit: process.env.JSON_BODY_LIMIT || '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: process.env.URLENCODED_BODY_LIMIT || '1mb' }));
 
-const uploadsDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
@@ -114,14 +138,17 @@ app.use('/uploads', express.static(uploadsDir, {
   },
 }));
 
-app.get('/api/health', (req, res) => {
-  res.json({
-    success: true,
-    message: 'Pauline Fashion Store API is running.',
-    database: 'MySQL',
-    environment: process.env.NODE_ENV,
-    timestamp: new Date().toISOString(),
-  });
+app.get('/api/health', async (req, res, next) => {
+  try {
+    await queryOne('SELECT 1');
+    res.json({
+      success: true,
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 app.use('/api/auth', require('./routes/authRoutes'));
@@ -136,17 +163,27 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log('');
-  console.log('=====================================');
-  console.log('Pauline Fashion Store API');
-  console.log(`Port:        ${PORT}`);
-  console.log('Database:    MySQL');
-  console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`URL:         http://localhost:${PORT}/api`);
-  console.log(`CORS origin: ${isProduction ? process.env.FRONTEND_URL : 'all (dev mode)'}`);
-  console.log('=====================================');
-  console.log('');
-});
+const startServer = async () => {
+  await connectDB();
+
+  return app.listen(PORT, () => {
+    console.log('');
+    console.log('=====================================');
+    console.log('Campus Styles API');
+    console.log(`Port:        ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+    console.log(`CORS origin: ${isProduction ? process.env.FRONTEND_URL : 'all (dev mode)'}`);
+    console.log('=====================================');
+    console.log('');
+  });
+};
+
+if (require.main === module) {
+  startServer().catch((error) => {
+    console.error('Unable to start API server:', error.code || error.message);
+    process.exitCode = 1;
+  });
+}
 
 module.exports = app;
+module.exports.startServer = startServer;

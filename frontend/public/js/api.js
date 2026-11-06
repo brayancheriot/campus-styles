@@ -3,10 +3,43 @@
    Backend: Node.js + MySQL
    ============================================ */
 
-/* ---- Switch this to your live domain when deploying ---- */
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-  ? 'http://localhost:5000/api'
-  : 'https://your-backend-domain.com/api';   /* ← change this before going live */
+const API_BASE = window.CAMPUS_STYLES_API_BASE;
+const PRODUCT_CACHE_NAME = 'campus-styles-products-v1';
+
+const cacheProductData = async (url, data) => {
+  if (!('caches' in window)) return;
+  try {
+    const cache = await caches.open(PRODUCT_CACHE_NAME);
+    await cache.put(url, new Response(JSON.stringify(data), {
+      headers: { 'Content-Type': 'application/json' },
+    }));
+    const keys = await cache.keys();
+    if (keys.length > 80) await cache.delete(keys[0]);
+  } catch (error) {
+    console.warn('Product data could not be saved for offline use:', error);
+  }
+};
+
+const getCachedProductData = async (url) => {
+  if (!('caches' in window)) return null;
+  try {
+    const cache = await caches.open(PRODUCT_CACHE_NAME);
+    const response = await cache.match(url);
+    return response ? await response.json() : null;
+  } catch (error) {
+    console.warn('Cached product data could not be read:', error);
+    return null;
+  }
+};
+
+const clearCachedProductData = async () => {
+  if (!('caches' in window)) return;
+  try {
+    await caches.delete(PRODUCT_CACHE_NAME);
+  } catch (error) {
+    console.warn('Cached product data could not be cleared:', error);
+  }
+};
 
 /* ============================================
    AUTH HELPERS
@@ -70,7 +103,9 @@ async function apiRequest(endpoint, method = 'GET', body = null, auth = false) {
     return data;
 
   } catch (err) {
-    /* Re-throw so callers can catch and show user-friendly messages */
+    if (!navigator.onLine) {
+      throw new Error('You are offline. Reconnect to use this feature.');
+    }
     throw err;
   }
 }
@@ -79,11 +114,31 @@ async function apiRequest(endpoint, method = 'GET', body = null, auth = false) {
    PRODUCT API
    ============================================ */
 const ProductAPI = {
-  getAll: (params = {}) => {
+  getAll: async (params = {}) => {
     const q = new URLSearchParams(params).toString();
-    return apiRequest(`/products${q ? '?' + q : ''}`);
+    const url = `${API_BASE}/products${q ? '?' + q : ''}`;
+    try {
+      const data = await apiRequest(`/products${q ? '?' + q : ''}`);
+      await cacheProductData(url, data);
+      return data;
+    } catch (error) {
+      const cachedData = await getCachedProductData(url);
+      if (cachedData && (!navigator.onLine || error instanceof TypeError)) return cachedData;
+      throw error;
+    }
   },
-  getById: (id) => apiRequest(`/products/${id}`),
+  getById: async (id) => {
+    const url = `${API_BASE}/products/${encodeURIComponent(id)}`;
+    try {
+      const data = await apiRequest(`/products/${encodeURIComponent(id)}`);
+      await cacheProductData(url, data);
+      return data;
+    } catch (error) {
+      const cachedData = await getCachedProductData(url);
+      if (cachedData && (!navigator.onLine || error instanceof TypeError)) return cachedData;
+      throw error;
+    }
+  },
 
   /* FormData requests — no Content-Type header so browser sets multipart boundary */
   create: async (fd) => {
@@ -97,6 +152,7 @@ const ProductAPI = {
     const data = await res.json();
     if (res.status === 401) { Auth.logout(); return; }
     if (!res.ok) throw new Error(data.message || 'Failed to create product');
+    await clearCachedProductData();
     return data;
   },
 
@@ -111,10 +167,15 @@ const ProductAPI = {
     const data = await res.json();
     if (res.status === 401) { Auth.logout(); return; }
     if (!res.ok) throw new Error(data.message || 'Failed to update product');
+    await clearCachedProductData();
     return data;
   },
 
-  delete: (id) => apiRequest(`/products/${id}`, 'DELETE', null, true),
+  delete: async (id) => {
+    const result = await apiRequest(`/products/${id}`, 'DELETE', null, true);
+    await clearCachedProductData();
+    return result;
+  },
 };
 
 /* ============================================

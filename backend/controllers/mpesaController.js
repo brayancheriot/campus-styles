@@ -93,17 +93,14 @@ const callbackIsAuthorized = (req) => {
 
   if (process.env.NODE_ENV !== 'production') return true;
 
-  const incomingIp = req.ip || req.connection.remoteAddress;
+  const incomingIp = req.ip || req.socket.remoteAddress;
   // Official Safaricom production application API gateway edges
   const safaricomIps = [
     '196.201.214.200', '196.201.214.206', '196.201.213.114', 
     '196.201.214.207', '196.201.214.208', '196.201.213.44'
   ];
   
-  // Read true client IP if your node instance is hosted behind cloud proxies like Render or Cloudflare
-  const realIp = req.headers['x-forwarded-for']?.split(',')[0].trim() || incomingIp;
-
-  return safaricomIps.includes(realIp);
+  return safaricomIps.includes(incomingIp);
 };
 
 

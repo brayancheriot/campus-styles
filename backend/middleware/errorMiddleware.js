@@ -41,6 +41,10 @@ const errorHandler = (err, req, res, next) => {
     message    = 'Token expired. Please log in again.';
   }
 
+  if (statusCode >= 500 && process.env.NODE_ENV === 'production') {
+    message = 'Internal Server Error';
+  }
+
   // Log in development
   if (process.env.NODE_ENV === 'development') {
     console.error('🔥 Error:', err);

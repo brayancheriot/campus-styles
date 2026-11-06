@@ -40,6 +40,24 @@ function initNavbar() {
   updateNavUser();
 }
 
+function getSafeRedirect(target, fallback = 'index.html') {
+  const value = typeof target === 'string' ? target.trim() : '';
+  if (!value || value.includes('\\') || /^[a-zA-Z][a-zA-Z\d+.-]*:/.test(value) || value.startsWith('//')) {
+    return fallback;
+  }
+
+  try {
+    const url = new URL(value, window.location.href);
+    if (url.origin === window.location.origin) {
+      return `${url.pathname}${url.search}${url.hash}` || fallback;
+    }
+  } catch {
+    return fallback;
+  }
+
+  return fallback;
+}
+
 function updateNavUser() {
   const user     = Auth.getUser();
   const loginLink = document.getElementById('nav-login-link');
@@ -921,9 +939,9 @@ async function initCheckoutPage() {
    LOGIN PAGE
    ============================================ */
 function initLoginPage() {
-  const redirect = new URLSearchParams(window.location.search).get('redirect');
+  const redirect = getSafeRedirect(new URLSearchParams(window.location.search).get('redirect'), Auth.isAdmin() ? 'admin.html' : 'index.html');
   if (Auth.isLoggedIn()) {
-    window.location.href = redirect || (Auth.isAdmin() ? 'admin.html' : 'index.html');
+    window.location.href = redirect;
     return;
   }
 
@@ -952,9 +970,9 @@ function initLoginPage() {
 
       /* Redirect back to page user came from, if any */
       const params   = new URLSearchParams(window.location.search);
-      const redirect = params.get('redirect');
+      const redirect = getSafeRedirect(params.get('redirect'), data.user.role === 'admin' ? 'admin.html' : 'index.html');
       setTimeout(() => {
-        window.location.href = redirect || (data.user.role === 'admin' ? 'admin.html' : 'index.html');
+        window.location.href = redirect;
       }, 1000);
 
     } catch (err) {
@@ -978,8 +996,8 @@ btn.textContent = field.type === 'text' ? '🙈' : '👁';
    REGISTER PAGE
    ============================================ */
 function initRegisterPage() {
-  const redirect = new URLSearchParams(window.location.search).get('redirect');
-  if (Auth.isLoggedIn()) { window.location.href = redirect || 'index.html'; return; }
+  const redirect = getSafeRedirect(new URLSearchParams(window.location.search).get('redirect'), 'index.html');
+  if (Auth.isLoggedIn()) { window.location.href = redirect; return; }
 
   document.getElementById('register-form')?.addEventListener('submit', async e => {
     e.preventDefault();
@@ -1002,7 +1020,7 @@ function initRegisterPage() {
       Auth.setToken(data.token);
       Auth.setUser(data.user);
       showToast(`Account created! Welcome, ${fname}! ðŸŽ‰`, 'success');
-      setTimeout(() => window.location.href = redirect || 'index.html', 1200);
+      setTimeout(() => window.location.href = redirect, 1200);
     } catch (err) {
       showToast(err.message || 'Registration failed', 'error');
       btn.classList.remove('loading');
@@ -1903,4 +1921,3 @@ document.addEventListener('DOMContentLoaded', async () => {
   await pageMap[page]?.();
   updateCartBadge().catch(() => {});
 });
-
